@@ -1,0 +1,42 @@
+@font-face {
+    font-family: Torus Regular;
+    src: url("Sources/coolvetica rg.ttf")
+}
+
+body {
+    font-family: Torus Regular, serif;
+    margin: 0;
+}
+
+section {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    background-color: #1d1d1d;
+}
+
+#title {
+    position: absolute;
+    color: white;
+    font-size: 100px;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    text-align: center;
+}
+
+#section-aboutMe {
+
+}
+
+.titleLetter {
+    display: inline-block;
+    transition: color 200ms ease-out, transform 200ms ease-out;
+    transition-delay: 200ms;
+}
+
+.titleLetter:hover {
+    transition: color 50ms ease-out, transform 50ms ease-out;
+    color: #e6649e;
+    transform: rotate(-15deg);
+}
