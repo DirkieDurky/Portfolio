@@ -37,64 +37,84 @@ function separate($string)
     </div>
 </section>
 <section id="section-aboutMe">
-    <h1>Over mij:</h1>
-    <p class="headline">
-        In het algemeen:
-    </p>
-    <p>
-        Hallo! Ik ben Dirk!<br>
-        Mijn volledige naam is Dirk Freijters, ik ben opgegroeid in Uden (en woon daar nu nog steeds). Ik ben 16 jaar.
-        In mijn vrije tijd kijk ik speel ik games (Tetris, Minecraft, osu!), en programmeer ik graag!
-    </p>
-    <p class="headline">
-        Wat programmeren betreft:
-    </p>
+    <span>
+        Mijn volledige naam is Dirk Freijters, ik woon in Uden, ik ben </span><span id="ageWindow"><span id="age"></span></span><span>
+        en in mijn vrije tijd speel ik games (Tetris, Minecraft, osu!), en programmeer ik graag!
+    </span>
+</section>
+<section id="section-WDIWTB">
+    <h1>Waar ik nu ben:</h1>
     <p>
         Op mijn 10e ontdekte ik Scratch. Een platform waar je kunt leren programmeren door middel van het slepen van
         blokjes. Daar heb ik ontdekt hoe leuk programmeren kan zijn en ik heb het sindsdien fantastisch gevonden! Op de
         middelbare school kreeg ik allerlei vakken die ik helemaal niet interessant vond. Daarom ben ik van Havo 4
-        overgestapt naar een opleiding Software Development. Daar krijg ik les over dingen die ik echt interessant vind!
+        overgestapt naar een opleiding Software Development. Nu krijg ik les over dingen die ik echt interessant vind!
     </p>
-</section>
-<section id="section-WDIWTB">
-    <h1>Waar ik nu ben:</h1>
-    <p>Hoewel ik met plezier aan de front-end werk, werk ik liever aan back-end.</p>
+    <p>
+        Ik maak graag websites, of andere applicaties. Hoewel ik met plezier aan de front-end van een site werk, werk ik liever aan back-end.
+    </p>
     <div class="flexbox">
-
         <div class="flexElement">
-            <h1><img src="../Sources/Logos/Scratch%20logo.svg" alt="Scratch Logo" width="50">Scratch</h1>
+            <header style="background-color:#f8a41d">
+                <img src="../Sources/Logos/Scratch%20logo.svg" alt="Scratch Logo" width="50">
+                <h1 id="drop-shadow">Scratch</h1>
+            </header>
+            <div class="content">
             <span>
                 Scratch is het platform dat mij geïntroduceerd heeft in programmeren. Ik heb op Scratch met plezier aan superveel
-                kleine projectjes gewerkt en de basis van programmeren geleerd.
+                kleine projectjes gewerkt en de basis van programmeren geleerd. Voor meer informatie over mijn Scratch-carriere kun je
+                <a href="https://scratch.mit.edu/users/Dirk993/">hier</a> een kijkje nemen:
+
             </span>
+            </div>
         </div>
         <div class="flexElement">
-            <h1>Java</h1>
+            <header style="background-color:#78c472">
+                <img src="../Sources/Logos/java.svg" alt="Java Logo" width="50">
+                <h1>Java</h1>
+            </header>
+            <div class="content">
             <span>
-                Een vriend die veel met Java werkt heeft me een klein beetje Java geleerd, en daar heb ik een paar projectjes mee gemaakt.
+                Een vriend die veel met Java werkt heeft me een beetje Java geleerd, en daar heb ik een paar projectjes mee gemaakt.
                 Hoewel ik het leuk vond om met Java programma’s te maken, was het nog wat te gecompliceerd.
             </span>
+            </div>
         </div>
         <div class="flexElement">
-            <h1>HTML/CSS</h1>
+            <header style="background-color:#cb9ddb">
+                <img src="../Sources/Logos/htmlcss.svg" alt="HTML Logo" width="50">
+                <h1>HTML/CSS</h1>
+            </header>
+            <div class="content">
             <span>
                 Op school begonnen we met het maken van webapplicaties. Daarbij is HTML en CSS natuurlijk essentieel.
                 Ik heb met HTML en CSS aan talloze projecten gewerkt.
             </span>
+            </div>
         </div>
         <div class="flexElement">
-            <h1>PHP</h1>
+            <header style="background-color:#8993be">
+                <img src="../Sources/Logos/php2.svg" alt="PHP Logo" width="50">
+                <h1>PHP</h1>
+            </header>
+            <div class="content">
             <span>
                 Ik begon met het leren van PHP door school. Voor veel klasgenoten was dit de eerste taal die ze leerden,
                 maar door mijn eerdere ervaring met programmeren begreep ik al relatief snel hoe ik ermee moest werken.
                 Naast projecten voor school heb ik zelf ook nog wat dingen gemaakt met PHP.
             </span>
+            </div>
         </div>
         <div class="flexElement">
-            <h1>JavaScript</h1>
-            <span>
-                Javascript heb ik hier en daar gebruikt voor wat dingen in andere projecten. Van JavaScript zou ik graag nog wat meer willen leren.
-            </span>
+            <header style="background-color:#f0db4f">
+                <img src="../Sources/Logos/javascript.svg" alt="JS Logo" width="50">
+                <h1>JavaScript</h1>
+            </header>
+            <div class="content">
+        <span>
+            Javascript heb ik hier en daar gebruikt voor wat dingen in andere projecten.
+            Van JavaScript zou ik graag nog wat meer willen leren. Voornamelijk jQuery en Ajax.
+        </span>
         </div>
     </div>
 </section>
@@ -105,8 +125,6 @@ function separate($string)
         return new Promise(resolve => setTimeout(resolve, ms));
     }
     const letters = document.getElementsByClassName('titleLetter');
-
-    console.log("translate("+(Math.floor(Math.random() * 1000) -500)+"%,"+(Math.floor(Math.random() * 1000) -500)+"%)");
 
     const size = 300;
 
@@ -120,7 +138,6 @@ function separate($string)
             while (rand2 > "-"+size && rand2 < size) {
                 rand2 = Math.floor(Math.random() * 1000) - 500;
             }
-            console.log(rand,rand2);
             letters[i].style.transition = "a";
             letters[i].style.transform = "translate(" + rand + "%," + rand2 + "%)";
         }
@@ -151,5 +168,164 @@ function separate($string)
         await slideIn();
     }
 
-        callFunc();
+    callFunc();
+
+    let dob = new Date(1082928780000);
+
+    let dobYear = dob.getFullYear();
+    let dobMonth = dob.getMonth();
+    let dobDate = dob.getDate();
+    let dobHour = dob.getHours();
+    let dobMins = dob.getMinutes();
+    let dobSecs = dob.getSeconds();
+
+    function calcAge() {
+
+        let now = new Date();
+        let currentYear = now.getFullYear();
+        let currentMonth = now.getMonth();
+        let currentDate = now.getDate();
+        let currentHour = now.getHours();
+        let currentMins = now.getMinutes();
+        let currentSecs = now.getSeconds();
+
+        //Years
+        yearAge = currentYear - dobYear;
+
+        //Months
+        if (currentMonth >= dobMonth) {
+            monthAge = currentMonth - dobMonth;
+        } else {
+            yearAge--;
+            monthAge = 12 + currentMonth - dobMonth;
+        }
+
+        //Days
+        if (currentDate >= dobDate) {
+            dateAge = currentDate - dobDate;
+        } else {
+            monthAge--;
+            dateAge = 31 + currentDate - dobDate;
+
+            if (monthAge < 0) {
+                monthAge = 11;
+                yearAge--;
+            }
+        }
+
+        //Hours
+        if (currentHour >= dobHour) {
+            hourAge = currentHour - dobHour;
+        } else {
+            dateAge--;
+            hourAge = 24 + currentHour - dobHour;
+
+            if (dateAge < 0) {
+                dateAge = 30;
+                monthAge--;
+            }
+        }
+
+        //Minutes
+        if (currentMins >= dobMins) {
+            minAge = currentMins - dobMins;
+        } else {
+            hourAge--;
+            minAge = 60 + currentMins - dobMins;
+
+            if (hourAge < 0) {
+                hourAge = 23;
+                dateAge--;
+            }
+        }
+
+        //Seconds
+        if (currentSecs >= dobSecs) {
+            secAge = currentSecs - dobSecs;
+        } else {
+            minAge--;
+            secAge = 60 + currentSecs - dobSecs;
+
+            if (minAge < 0) {
+                minAge = 59;
+                hourAge--;
+            }
+        }
+
+        age = {
+            years: yearAge,
+            months: monthAge,
+            days: dateAge,
+            hours: hourAge,
+            mins: minAge,
+            secs: secAge
+        };
+        return age;
+    }
+
+    // let birthday = new Date(1082928780000);
+    // let now = new Date();
+    let ageWindow = document.getElementById('ageWindow');
+
+    age.innerHTML = calcAge().years + " jaar";
+
+    ageWindow.addEventListener("mouseleave", async function() {
+        let age = document.getElementById('age');
+        age.innerHTML = calcAge().years + " jaar";
+        age.style.webkitTextFillColor = "transparent";
+        ageWindow.style.width = "135px";
+        ageWindow.style.height = "50px";
+        age.style.fontSize = "40px";
+        ageWindow.style.backgroundColor = "unset";
+        clearInterval(window.ageInterval);
+    })
+
+    ageWindow.addEventListener("mouseenter", async function() {
+        let age = document.getElementById('age');
+        ageWindow.style.backgroundColor = "white";
+        age.style.webkitTextFillColor = "white";
+        age.style.fontSize = "16px";
+        window.ageInterval = setInterval(function(){
+            // now = new Date();
+            // window.years = (now.getFullYear() - birthday.getFullYear());
+            // window.months = (now.getMonth() - birthday.getMonth());
+            // window.days = (now.getDate() - birthday.getDate());
+            // window.hours = (now.getHours() - birthday.getHours());
+            // window.mins = (now.getMinutes() - birthday.getMinutes());
+            // window.secs = (now.getSeconds() - birthday.getSeconds());
+            const ageDate = calcAge();
+            let result = ageDate.years + " jaar, " + ageDate.months;
+            if (ageDate.months === 1) {
+                result += " maand, ";
+            } else {
+                result += " maanden, "
+            }
+            result += ageDate.days;
+            if (ageDate.days === 1) {
+                result += " dag, ";
+            } else {
+                result += " dagen, ";
+            }
+            result += ageDate.hours + " uur, " + ageDate.mins;
+            if (ageDate.mins === 1) {
+                result += " minuut,<br>en ";
+            } else {
+                result += " minuten,<br>en ";
+            }
+            result += ageDate.secs;
+            if (ageDate.secs === 1) {
+                result += " seconde ";
+            } else {
+                result += " seconden";
+            }
+            result += " oud om precies te zijn.<br>(2004/04/25 om 23:33)"
+            //age.innerHTML = ageDate.years + " jaar, " + ageDate.months + " maanden, " + ageDate.days + " dagen, " + ageDate.hours + " uur, " +
+            //ageDate.mins + " minuten, en " + ageDate.secs + " seconden om precies te zijn. (2004/04/25 om 23:33)"
+            age.innerHTML = result;
+        },100);
+        ageWindow.style.width = "400px";
+        ageWindow.style.height = "60px";
+        await sleep(400);
+        age.style.webkitTextFillColor = "transparent";
+    })
 </script>
