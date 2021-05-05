@@ -21,10 +21,10 @@ body {
 
 section {
     position: relative;
-    height: 100%;
-    margin-bottom: 25%;
+    display: block;
     width: 100%;
     background-color: #1d1d1d;
+    height: 65vh;
 }
 
 #title {
@@ -57,24 +57,24 @@ p.headline {
     font-size: 30px;
 }
 
-#section-aboutMe {
+#aboutMe {
+    position: absolute;
     width: 400px;
     transform: translate(-50%);
     left: 50%;
 }
 
 p,h1 {
-    display: block;
     margin-top: 0;
     position: relative;
     transform: translate(-50%);
     left: 50%;
-    text-align: center;
     width: 400px;
     color: white;
+    text-align: center;
 }
 
-#section-aboutMe span {
+#section-aboutMe span:not(#age){
     position: relative;
     display: inline-block;
     margin-top: 0;
@@ -97,23 +97,24 @@ p,h1 {
 
 #age {
     position: relative;
+    display: inline-block;
     font-size: 40px;
     background: linear-gradient(#e66465, #9198e5);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: background 200ms;
+    color: transparent;
     transform: translate(0,-50%);
     top: 50%;
 }
 
 .flexbox {
-    position: absolute;
+    position: relative;
     transform: translate(-50%);
     left: 50%;
-    display: flex;
+    display: inline-flex;
     justify-content: center;
     width: 80%;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 .flexElement {
@@ -149,5 +150,6 @@ p,h1 {
     width: calc(100% - 20px);
 }
 
-.shadowed {
+#section-WDIWTB {
+    margin-top: 400px;
 }

@@ -16,6 +16,7 @@ function separate($string)
     }
     return $result;
 }
+
 ?>
 
 <!doctype html>
@@ -37,22 +38,32 @@ function separate($string)
     </div>
 </section>
 <section id="section-aboutMe">
-    <span>
-        Mijn volledige naam is Dirk Freijters, ik woon in Uden, ik ben </span><span id="ageWindow"><span id="age"></span></span><span>
-        en in mijn vrije tijd speel ik games (Tetris, Minecraft, osu!), en programmeer ik graag!
-    </span>
+    <div id="aboutMe">
+        <span>
+            Mijn volledige naam is Dirk Freijters, ik woon in Uden, ik ben </span><span id="ageWindow"><span
+                    id="age"></span></span><span>
+            en in mijn vrije tijd speel ik games (Tetris, Minecraft, osu!), en programmeer ik graag!
+        </span>
+    </div>
 </section>
-<section id="section-WDIWTB">
+<section id="section-WIARN">
     <h1>Waar ik nu ben:</h1>
     <p>
         Op mijn 10e ontdekte ik Scratch. Een platform waar je kunt leren programmeren door middel van het slepen van
-        blokjes. Daar heb ik ontdekt hoe leuk programmeren kan zijn en ik heb het sindsdien fantastisch gevonden! Op de
+        blokjes. Daar heb ik ontdekt hoe leuk programmeren kan zijn en ik heb het sindsdien fantastisch gevonden! Op
+        de
         middelbare school kreeg ik allerlei vakken die ik helemaal niet interessant vond. Daarom ben ik van Havo 4
-        overgestapt naar een opleiding Software Development. Nu krijg ik les over dingen die ik echt interessant vind!
+        overgestapt naar een opleiding Software Development. Nu krijg ik les over dingen die ik echt interessant
+        vind!
     </p>
     <p>
-        Ik maak graag websites, of andere applicaties. Hoewel ik met plezier aan de front-end van een site werk, werk ik liever aan back-end.
+        Ik maak graag websites, of andere applicaties. Hoewel ik met plezier aan de front-end van een site werk,
+        werk ik
+        liever aan de back-end.
     </p>
+</section>
+<section id="section-experience">
+    <h1>Mijn ervaring met programmeren:</h1>
     <div class="flexbox">
         <div class="flexElement">
             <header style="background-color:#f8a41d">
@@ -62,9 +73,8 @@ function separate($string)
             <div class="content">
             <span>
                 Scratch is het platform dat mij geïntroduceerd heeft in programmeren. Ik heb op Scratch met plezier aan superveel
-                kleine projectjes gewerkt en de basis van programmeren geleerd. Voor meer informatie over mijn Scratch-carriere kun je
+                kleine projectjes gewerkt en de basis van programmeren geleerd.<br><br>Voor meer informatie over mijn Scratch-carriere kun je
                 <a href="https://scratch.mit.edu/users/Dirk993/">hier</a> een kijkje nemen:
-
             </span>
             </div>
         </div>
@@ -75,7 +85,7 @@ function separate($string)
             </header>
             <div class="content">
             <span>
-                Een vriend die veel met Java werkt heeft me een beetje Java geleerd, en daar heb ik een paar projectjes mee gemaakt.
+                Een vriend die veel met Java werkt heeft me wat Java geleerd, en daar heb ik een paar projectjes mee gemaakt.
                 Hoewel ik het leuk vond om met Java programma’s te maken, was het nog wat te gecompliceerd.
             </span>
             </div>
@@ -115,8 +125,35 @@ function separate($string)
             Javascript heb ik hier en daar gebruikt voor wat dingen in andere projecten.
             Van JavaScript zou ik graag nog wat meer willen leren. Voornamelijk jQuery en Ajax.
         </span>
+            </div>
+        </div>
+        <div class="flexElement">
+            <header style="background-color:#56565c">
+                <img src="../Sources/Logos/Github.svg" alt="JS Logo" width="50">
+                <h1>Github</h1>
+            </header>
+            <div class="content">
+        <span>
+            Met Github werk ik samen met anderen aan projecten, of werk ik gemakkelijk aan een project op meerdere apparaten!<br><br>
+            Veel van mijn projecten zijn open source, dus kun je gewoon bekijken op mijn Github, waaronder dit portfolio! Neem dus gerust een kijkje!
+        </span>
+            </div>
         </div>
     </div>
+</section>
+<section id="section-WDIWTB">
+    <h1>Waar ik wil zijn:</h1>
+    <p>
+        Ik zou graag nog meer willen leren over JavaScript, en over javascript libraries zoals jQuery, en ook zou ik AJAX willen leren.
+        Ik wil beter worden in andere talen die ik al beheers (PHP, HTML, CSS, Java).
+        Ook zou ik graag nog wat nieuwe talen leren, zoals Python en de C talen.
+    </p>
+</section>
+<section id="section-HDIGT">
+    <h1>Hoe kom ik daar:</h1>
+    <p>
+        Ik ben van plan alles wat ik hierboven heb opgenoemd stuk voor stuk te gaan leren. Nu ben ik bezig met JavaScript!
+    </p>
 </section>
 </body>
 </html>
@@ -124,6 +161,7 @@ function separate($string)
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
+
     const letters = document.getElementsByClassName('titleLetter');
 
     const size = 300;
@@ -132,10 +170,10 @@ function separate($string)
         for (let i = 0; i < letters.length; i++) {
             let rand = Math.floor(Math.random() * 1000) - 500;
             let rand2 = Math.floor(Math.random() * 1000) - 500;
-            while (rand > "-"+size && rand < size) {
+            while (rand > "-" + size && rand < size) {
                 rand = Math.floor(Math.random() * 1000) - 500;
             }
-            while (rand2 > "-"+size && rand2 < size) {
+            while (rand2 > "-" + size && rand2 < size) {
                 rand2 = Math.floor(Math.random() * 1000) - 500;
             }
             letters[i].style.transition = "a";
@@ -148,12 +186,12 @@ function separate($string)
             letters[i].style.transition = "color 250ms, transform 250ms";
             letters[i].style.opacity = "100";
             letters[i].style.transform = "translate(0,0)";
-            letters[i].addEventListener('mouseover', function e(){
+            letters[i].addEventListener('mouseover', function e() {
                 letters[i].style.transition = "color 50ms, transform 50ms";
                 letters[i].style.transitionDelay = "0ms";
                 letters[i].style.transform = "rotate(-15deg)";
             })
-            letters[i].addEventListener('mouseleave', function e(){
+            letters[i].addEventListener('mouseleave', function e() {
                 letters[i].style.transition = "color 200ms, transform 200ms";
                 letters[i].style.transitionDelay = "200ms";
                 letters[i].style.transform = "";
@@ -263,36 +301,51 @@ function separate($string)
         return age;
     }
 
-    // let birthday = new Date(1082928780000);
-    // let now = new Date();
     let ageWindow = document.getElementById('ageWindow');
 
     age.innerHTML = calcAge().years + " jaar";
 
-    ageWindow.addEventListener("mouseleave", async function() {
+    ageWindow.addEventListener("mouseleave", function () {
+        const checkExist = setInterval(function () {
+            if (window.ageInterval) {
+                clearInterval(window.ageInterval);
+                clearInterval(checkExist);
+            }
+        }, 150);
         let age = document.getElementById('age');
+        clearInterval(window.ageInterval);
         age.innerHTML = calcAge().years + " jaar";
-        age.style.webkitTextFillColor = "transparent";
+        age.style.color = "transparent";
         ageWindow.style.width = "135px";
         ageWindow.style.height = "50px";
         age.style.fontSize = "40px";
         ageWindow.style.backgroundColor = "unset";
-        clearInterval(window.ageInterval);
+        age.style.transition = "unset";
+        window.i = 0;
+        window.removeInterval = setInterval(function () {
+            if (window.i > 1) {
+                clearInterval(removeInterval);
+                return;
+            }
+            if (window.ageInterval) {
+                clearInterval(window.ageInterval);
+                age.innerHTML = calcAge().years + " jaar";
+            }
+            window.i++
+        }, 200);
     })
 
-    ageWindow.addEventListener("mouseenter", async function() {
+    ageWindow.addEventListener("mouseenter", async function () {
+        clearInterval(window.removeInterval);
         let age = document.getElementById('age');
+        age.innerHTML = "";
         ageWindow.style.backgroundColor = "white";
-        age.style.webkitTextFillColor = "white";
+        age.style.color = "white";
         age.style.fontSize = "16px";
-        window.ageInterval = setInterval(function(){
-            // now = new Date();
-            // window.years = (now.getFullYear() - birthday.getFullYear());
-            // window.months = (now.getMonth() - birthday.getMonth());
-            // window.days = (now.getDate() - birthday.getDate());
-            // window.hours = (now.getHours() - birthday.getHours());
-            // window.mins = (now.getMinutes() - birthday.getMinutes());
-            // window.secs = (now.getSeconds() - birthday.getSeconds());
+        ageWindow.style.width = "380px";
+        ageWindow.style.height = "60px";
+        await sleep(150);
+        window.ageInterval = setInterval(function () {
             const ageDate = calcAge();
             let result = ageDate.years + " jaar, " + ageDate.months;
             if (ageDate.months === 1) {
@@ -314,18 +367,14 @@ function separate($string)
             }
             result += ageDate.secs;
             if (ageDate.secs === 1) {
-                result += " seconde ";
+                result += " seconde";
             } else {
                 result += " seconden";
             }
-            result += " oud om precies te zijn.<br>(2004/04/25 om 23:33)"
-            //age.innerHTML = ageDate.years + " jaar, " + ageDate.months + " maanden, " + ageDate.days + " dagen, " + ageDate.hours + " uur, " +
-            //ageDate.mins + " minuten, en " + ageDate.secs + " seconden om precies te zijn. (2004/04/25 om 23:33)"
+            result += " oud om precies te zijn.<br>(2004/04/25 om 23:33)";
             age.innerHTML = result;
-        },100);
-        ageWindow.style.width = "400px";
-        ageWindow.style.height = "60px";
-        await sleep(400);
-        age.style.webkitTextFillColor = "transparent";
+        }, 100);
+        age.style.transition = "color 500ms";
+        age.style.color = "transparent";
     })
 </script>
