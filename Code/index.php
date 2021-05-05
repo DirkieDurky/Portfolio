@@ -1,4 +1,11 @@
 <?php
+/*
+ * Todo:
+ * Increase responsibility
+ * Add contact (Discord, Email)
+ * Add info
+ * More cool stuffzies?
+ */
 function separate($string)
 {
     $result = "";
