@@ -1,9 +1,12 @@
 <?php
 /*
  * Todo:
+ * Fix: Only 1 bubble can appear at once
+ * Add icon if user stopped scrolling
  * Increase responsibility
- * Add contact (Discord, Email)
+ * Test other browsers
  * Add info
+ * Adding english option
  * More cool stuffzies?
  */
 function separate($string)
@@ -47,8 +50,10 @@ function separate($string)
 <section id="section-aboutMe">
     <div id="aboutMe">
         <span>
-            Mijn volledige naam is Dirk Freijters, ik woon in Uden, ik ben </span><span id="ageWindow"><span
-                    id="age"></span></span><span>
+            Mijn volledige naam is Dirk Freijters, ik woon in Uden, ik ben
+        </span>
+        <span id="ageWindow"><span id="age"></span></span>
+        <span>
             en in mijn vrije tijd speel ik games (Tetris, Minecraft, osu!), en programmeer ik graag!
         </span>
     </div>
@@ -65,8 +70,7 @@ function separate($string)
     </p>
     <p>
         Ik maak graag websites, of andere applicaties. Hoewel ik met plezier aan de front-end van een site werk,
-        werk ik
-        liever aan de back-end.
+        werk ik liever aan de back-end.
     </p>
 </section>
 <section id="section-experience">
@@ -151,7 +155,8 @@ function separate($string)
 <section id="section-WDIWTB">
     <h1>Waar ik wil zijn:</h1>
     <p>
-        Ik zou graag nog meer willen leren over JavaScript, en over javascript libraries zoals jQuery, en ook zou ik AJAX willen leren.
+        Ik zou graag nog meer willen leren over JavaScript, en over javascript libraries zoals jQuery, en ook zou ik
+        AJAX willen leren.
         Ik wil beter worden in andere talen die ik al beheers (PHP, HTML, CSS, Java).
         Ook zou ik graag nog wat nieuwe talen leren, zoals Python en de C talen.
     </p>
@@ -159,8 +164,77 @@ function separate($string)
 <section id="section-HDIGT">
     <h1>Hoe kom ik daar:</h1>
     <p>
-        Ik ben van plan alles wat ik hierboven heb opgenoemd stuk voor stuk te gaan leren. Nu ben ik bezig met JavaScript!
+        Ik ben van plan alles wat ik hierboven heb opgenoemd stuk voor stuk te gaan leren. Nu ben ik bezig met
+        JavaScript!
     </p>
+</section>
+<section id="section-contact">
+    <h1>Contact</h1>
+    <div class="flexbox">
+        <a id="discordLink">
+            <img src="../Sources/Logos/discord2.svg" alt="Discord logo" id="discord">
+        </a>
+        <a id="emailLink">
+            <img src="../Sources/Logos/email.svg" alt="Email icon" id="email">
+        </a>
+    </div>
+    <script>
+        function copyStringToClipboard (string) {
+            function handler (event){
+                event.clipboardData.setData('text/plain', string);
+                event.preventDefault();
+                document.removeEventListener('copy', handler, true);
+            }
+
+            document.addEventListener('copy', handler, true);
+            document.execCommand('copy');
+        }
+
+        const discord = document.getElementById("discord");
+        const email = document.getElementById("email");
+
+        //Puts something in the users clipboard when clicked and makes a bubble pop up
+        function copyBubble(elem,copy) {
+            elem.addEventListener("click", function(){
+                if (!window.active) {
+                    copyStringToClipboard(copy);
+                    elem.insertAdjacentHTML("beforebegin", "<div class=\"bubble\" id=\"bubble\">Gekopieerd!</div>");
+                    const bubble = document.getElementById("bubble");
+                    window.active = setTimeout(function () {
+                        bubble.remove();
+                        window.active = null;
+                    }, 500)
+                }
+            })
+        }
+
+        copyBubble(discord,"DirkieDurky#3976");
+        copyBubble(email,"dirk@freitjers.nl");
+        
+        // discord.addEventListener("click", function(){
+        //     if (!window.activeDiscord) {
+        //         copyStringToClipboard("DirkieDurky#3976");
+        //         discord.insertAdjacentHTML("beforebegin", "<div class=\"bubble\" id=\"BubDiscord\">Gekopieerd!</div>");
+        //         const bubble = document.getElementById("BubDiscord");
+        //         window.activeDiscord = setTimeout(function () {
+        //             bubble.remove();
+        //             window.activeDiscord = null;
+        //         }, 500)
+        //     }
+        // })
+        //
+        // email.addEventListener("click", function(){
+        //     if (!window.activeEmail) {
+        //         copyStringToClipboard("dirk@freijters.nl");
+        //         email.insertAdjacentHTML("beforebegin", "<div class=\"bubble\" id=\"BubEmail\">Gekopieerd!</div>");
+        //         const bubble = document.getElementById("BubEmail");
+        //         window.activeEmail = setTimeout(function () {
+        //             bubble.remove();
+        //             window.activeEmail = null;
+        //         }, 500)
+        //     }
+        // })
+    </script>
 </section>
 </body>
 </html>
@@ -234,6 +308,8 @@ function separate($string)
         let currentMins = now.getMinutes();
         let currentSecs = now.getSeconds();
 
+        let yearAge; let monthAge; let dateAge; let hourAge; let minAge; let secAge;
+
         //Years
         yearAge = currentYear - dobYear;
 
@@ -297,7 +373,7 @@ function separate($string)
             }
         }
 
-        age = {
+        return {
             years: yearAge,
             months: monthAge,
             days: dateAge,
@@ -305,10 +381,10 @@ function separate($string)
             mins: minAge,
             secs: secAge
         };
-        return age;
     }
 
     let ageWindow = document.getElementById('ageWindow');
+    let age = document.getElementById('age');
 
     age.innerHTML = calcAge().years + " jaar";
 
@@ -319,7 +395,6 @@ function separate($string)
                 clearInterval(checkExist);
             }
         }, 150);
-        let age = document.getElementById('age');
         clearInterval(window.ageInterval);
         age.innerHTML = calcAge().years + " jaar";
         age.style.color = "transparent";
@@ -344,7 +419,6 @@ function separate($string)
 
     ageWindow.addEventListener("mouseenter", async function () {
         clearInterval(window.removeInterval);
-        let age = document.getElementById('age');
         age.innerHTML = "";
         ageWindow.style.backgroundColor = "white";
         age.style.color = "white";

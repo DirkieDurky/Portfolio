@@ -24,7 +24,7 @@ section {
     display: block;
     width: 100%;
     background-color: #1d1d1d;
-    height: 65vh;
+    min-height: 65vh;
 }
 
 #title {
@@ -100,10 +100,9 @@ p,h1 {
     display: inline-block;
     font-size: 40px;
     background: linear-gradient(#e66465, #9198e5);
-    -webkit-background-clip: text;
     color: transparent;
-    transform: translate(0,-50%);
-    top: 50%;
+    -webkit-background-clip: text;
+    vertical-align: center;
 }
 
 .flexbox {
@@ -152,4 +151,50 @@ p,h1 {
 
 #section-WDIWTB {
     margin-top: 400px;
+}
+
+#section-contact img {
+    width: 100px;
+    margin: 0 25px 0;
+    cursor: pointer;
+    transition: transform 200ms;
+}
+
+#section-contact img:hover {
+    transform: scale(1.07);
+}
+
+#section-contact a {
+    position: relative;
+}
+
+.bubble {
+    position: absolute;
+    float: top;
+    width: fit-content;
+    height: fit-content;
+    background: #43b581;
+    border-radius: .4em;
+    z-index: 99;
+    color: white;
+    text-align: center;
+    vertical-align: center;
+    padding: 10px;
+    transform: translate(-50%);
+    left: 50%;
+    top: -45px;
+}
+
+.bubble:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-top-color: #43b581;
+    border-bottom: 0;
+    margin-left: -10px;
+    margin-bottom: -10px;
 }
