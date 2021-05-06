@@ -24,7 +24,7 @@ section {
     display: block;
     width: 100%;
     background-color: #1d1d1d;
-    min-height: 65vh;
+    min-height: 60vh;
 }
 
 #title {
@@ -151,6 +151,11 @@ p,h1 {
 
 #section-WDIWTB {
     margin-top: 400px;
+    margin-bottom: 100px;
+}
+
+#section-WIARN {
+    margin-bottom: 100px;
 }
 
 #section-contact img {

@@ -1,7 +1,6 @@
 <?php
 /*
  * Todo:
- * Fix: Only 1 bubble can appear at once
  * Add icon if user stopped scrolling
  * Increase responsibility
  * Test other browsers
@@ -190,50 +189,28 @@ function separate($string)
             document.execCommand('copy');
         }
 
-        const discord = document.getElementById("discord");
-        const email = document.getElementById("email");
-
+        window.active = 0;
         //Puts something in the users clipboard when clicked and makes a bubble pop up
         function copyBubble(elem,copy) {
             elem.addEventListener("click", function(){
-                if (!window.active) {
+                if (window.active !== elem) {
                     copyStringToClipboard(copy);
-                    elem.insertAdjacentHTML("beforebegin", "<div class=\"bubble\" id=\"bubble\">Gekopieerd!</div>");
-                    const bubble = document.getElementById("bubble");
-                    window.active = setTimeout(function () {
-                        bubble.remove();
-                        window.active = null;
-                    }, 500)
+                    elem.insertAdjacentHTML("beforebegin", "<div class=\"bubble\">Gekopieerd!</div>");
+                    window.active = elem;
+                    setTimeout(function () {
+                        elem.parentNode.removeChild(elem.parentNode.children[0]);
+                        window.active = 0;
+                    }, 1000)
                 }
             })
         }
 
+        const discord = document.getElementById("discord");
+        const email = document.getElementById("email");
+
         copyBubble(discord,"DirkieDurky#3976");
         copyBubble(email,"dirk@freitjers.nl");
-        
-        // discord.addEventListener("click", function(){
-        //     if (!window.activeDiscord) {
-        //         copyStringToClipboard("DirkieDurky#3976");
-        //         discord.insertAdjacentHTML("beforebegin", "<div class=\"bubble\" id=\"BubDiscord\">Gekopieerd!</div>");
-        //         const bubble = document.getElementById("BubDiscord");
-        //         window.activeDiscord = setTimeout(function () {
-        //             bubble.remove();
-        //             window.activeDiscord = null;
-        //         }, 500)
-        //     }
-        // })
-        //
-        // email.addEventListener("click", function(){
-        //     if (!window.activeEmail) {
-        //         copyStringToClipboard("dirk@freijters.nl");
-        //         email.insertAdjacentHTML("beforebegin", "<div class=\"bubble\" id=\"BubEmail\">Gekopieerd!</div>");
-        //         const bubble = document.getElementById("BubEmail");
-        //         window.activeEmail = setTimeout(function () {
-        //             bubble.remove();
-        //             window.activeEmail = null;
-        //         }, 500)
-        //     }
-        // })
+
     </script>
 </section>
 </body>
