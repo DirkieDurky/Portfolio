@@ -435,7 +435,7 @@ function separate($string)
             age.innerHTML = result;
         }
         setAge();
-        window.ageInterval = setInterval(setAge, 100);
+        window.ageInterval = setInterval(setAge, 500);
         await sleep(90);
         ageWindow.style.height = "auto";
         age.style.transition = "color 500ms";
@@ -471,6 +471,7 @@ function separate($string)
             console.log(window.amountScrolled);
             if (window.amountScrolled < 95 || window.amountScrolled === undefined) {
                 if (!window.iconActive) {
+                    window.iconActive = true;
                     document.body.insertAdjacentHTML("beforeend",
                         "<div class=\"scroll\"> Scroll gerust verder " +
                         "<div class=\"arrow\"></div>" +
@@ -483,7 +484,6 @@ function separate($string)
                     for (let i = 0; i < window.scrollElem.length; i++) {
                         window.scrollElem[i].style.opacity = "100";
                     }
-                    window.iconActive = true;
                 }
             }
         },10000)
