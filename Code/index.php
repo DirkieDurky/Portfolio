@@ -468,7 +468,8 @@ function separate($string)
 
     function setScrollTimeout() {
         window.scrollIcon = setTimeout(async function(){
-            if (window.amountScrolled < 95) {
+            console.log(window.amountScrolled);
+            if (window.amountScrolled < 95 || window.amountScrolled === undefined) {
                 if (!window.iconActive) {
                     document.body.insertAdjacentHTML("beforeend",
                         "<div class=\"scroll\"> Scroll gerust verder " +
@@ -505,7 +506,6 @@ function separate($string)
     })
 
     function updateScreen() {
-        console.log(window.innerWidth);
         if (window.innerWidth < 480) {
             document.getElementById("optionalBr").innerHTML = "<br>";
         } else {
