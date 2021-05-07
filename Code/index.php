@@ -1,8 +1,7 @@
 <?php
 /*
  * Todo:
- * Add icon if user stopped scrolling
- * Increase responsibility
+ * Increase responsibility -90% done. Fix: if screen is small change height of ageWindow smoothly
  * Test other browsers
  * Add info
  * Adding english option
@@ -38,12 +37,14 @@ function separate($string)
     <link rel="stylesheet" href="style.css">
     <title>Dirk Freijters</title>
 </head>
-<body>
+<body onload="updateScreen()" onresize="updateScreen()">
 <section id="section-title">
     <div id="title">
         <?= separate("Hallo,") ?>
         <br>
-        <?= separate("ik ben Dirk!") ?>
+        <?= separate("ik ben") ?>
+        <span id="optionalBr"></span>
+        <?= separate("Dirk!") ?>
     </div>
 </section>
 <section id="section-aboutMe">
@@ -362,6 +363,7 @@ function separate($string)
 
     let ageWindow = document.getElementById('ageWindow');
     let age = document.getElementById('age');
+    let aboutMeSpan = document.getElementById("aboutMe").getElementsByTagName("span")[0];
 
     age.innerHTML = calcAge().years + " jaar";
 
@@ -400,10 +402,10 @@ function separate($string)
         ageWindow.style.backgroundColor = "white";
         age.style.color = "white";
         age.style.fontSize = "16px";
-        ageWindow.style.width = "380px";
+        ageWindow.style.width = aboutMeSpan.offsetWidth - 20 + "px";
         ageWindow.style.height = "60px";
         await sleep(150);
-        window.ageInterval = setInterval(function () {
+        function setAge() {
             const ageDate = calcAge();
             let result = ageDate.years + " jaar, " + ageDate.months;
             if (ageDate.months === 1) {
@@ -431,8 +433,83 @@ function separate($string)
             }
             result += " oud om precies te zijn.<br>(2004/04/25 om 23:33)";
             age.innerHTML = result;
-        }, 100);
+        }
+        setAge();
+        window.ageInterval = setInterval(setAge, 100);
+        await sleep(90);
+        ageWindow.style.height = "auto";
         age.style.transition = "color 500ms";
         age.style.color = "transparent";
     })
+
+    function getDocHeight() {
+        return Math.max(
+            document.body.scrollHeight, document.documentElement.scrollHeight,
+            document.body.offsetHeight, document.documentElement.offsetHeight,
+            document.body.clientHeight, document.documentElement.clientHeight
+        )
+    }
+
+    const docHeight = getDocHeight();
+
+    document.addEventListener("scroll", function() {
+        //Get scrolled height
+        const winHeight = window.innerHeight || (document.documentElement || document.body).clientHeight;
+        //Get total document height
+        const docHeight = Math.max(
+            document.body.scrollHeight, document.documentElement.scrollHeight,
+            document.body.offsetHeight, document.documentElement.offsetHeight,
+            document.body.clientHeight, document.documentElement.clientHeight
+        )
+        const scrollTop = window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop;
+        const trackLength = docHeight - winHeight;
+        window.amountScrolled = Math.floor(scrollTop/trackLength * 100);
+    })
+
+    function setScrollTimeout() {
+        window.scrollIcon = setTimeout(async function(){
+            if (window.amountScrolled < 95) {
+                if (!window.iconActive) {
+                    document.body.insertAdjacentHTML("beforeend",
+                        "<div class=\"scroll\"> Scroll gerust verder " +
+                        "<div class=\"arrow\"></div>" +
+                        "</div>" +
+                        "<div class=\"scroll right\"> Scroll gerust verder " +
+                        "<div class=\"arrow\"></div>" +
+                        "</div>");
+                    window.scrollElem = document.getElementsByClassName("scroll");
+                    await sleep(200);
+                    for (let i = 0; i < window.scrollElem.length; i++) {
+                        window.scrollElem[i].style.opacity = "100";
+                    }
+                    window.iconActive = true;
+                }
+            }
+        },10000)
+    }
+
+    setScrollTimeout();
+
+    document.addEventListener("scroll", async function(){
+        window.iconActive = false;
+        window.scrollElem = document.getElementsByClassName("scroll");
+        for (let i=0;i<window.scrollElem.length;i++) {
+            window.scrollElem[i].style.opacity = "0";
+        }
+        await sleep(200);
+        for (let i=0;i<window.scrollElem.length;i++) {
+            window.scrollElem[i].remove();
+        }
+        clearTimeout(window.scrollIcon);
+        setScrollTimeout();
+    })
+
+    function updateScreen() {
+        console.log(window.innerWidth);
+        if (window.innerWidth < 480) {
+            document.getElementById("optionalBr").innerHTML = "<br>";
+        } else {
+            document.getElementById("optionalBr").innerHTML = "";
+        }
+    }
 </script>
