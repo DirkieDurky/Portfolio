@@ -2,10 +2,46 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function isTouchDevice() {
+    return (('ontouchstart' in window) ||
+        (navigator.maxTouchPoints > 0) ||
+        (navigator.msMaxTouchPoints > 0));
+}
+
+// - Title Letters -
+
+function separate(string) {
+    let result = "";
+    let lastCharWasSpace = false;
+
+    for (let i=0;i<string.length;i++) {
+        if (string.charAt(i) === " ") {
+            lastCharWasSpace = true;
+        }
+        if (lastCharWasSpace) {
+            result += "<span class='titleLetter' style='margin-left: 30px'>" + string.charAt(i) + "</span>";
+            lastCharWasSpace = false;
+        } else {
+            result += "<span class='titleLetter'>" + string.charAt(i) + "</span>"
+        }
+    }
+    return result;
+}
+
+hello = document.getElementById("hello");
+iam = document.getElementById("iam");
+dirk = document.getElementById("dirk");
+
+hello.insertAdjacentHTML("afterbegin", separate("Hallo, "));
+iam.insertAdjacentHTML("afterbegin", separate("ik ben"));
+dirk.insertAdjacentHTML("afterbegin", separate("Dirk!"));
+
 const letters = document.getElementsByClassName('titleLetter');
 
+//How far the letters have to spawn
 const size = 300;
 
+//Send all letters to a random position
 async function randPos() {
     for (let i = 0; i < letters.length; i++) {
         let randX = Math.floor(Math.random() * 1000) - 500;
@@ -22,12 +58,7 @@ async function randPos() {
     }
 }
 
-function isTouchDevice() {
-    return (('ontouchstart' in window) ||
-        (navigator.maxTouchPoints > 0) ||
-        (navigator.msMaxTouchPoints > 0));
-}
-
+//Make all letters slide on screen
 async function slideIn() {
     for (let i = 0; i < letters.length; i++) {
         letters[i].style.transition = "color 250ms, transform 250ms";
@@ -57,6 +88,7 @@ async function callFunc() {
 
 callFunc();
 
+// - Exact age calculation -
 let dob = new Date(1082928780000);
 
 let dobYear = dob.getFullYear();
@@ -245,6 +277,7 @@ if (!isTouchDevice()) {
     });
 }
 
+// - Scroll arrows -
 function getDocHeight() {
     return Math.max(
         document.body.scrollHeight, document.documentElement.scrollHeight,
@@ -307,14 +340,7 @@ document.addEventListener("scroll", async function () {
     setScrollTimeout();
 })
 
-function updateScreen() {
-    if (window.innerWidth < 480) {
-        document.getElementById("optionalBr").innerHTML = "<br>";
-    } else {
-        document.getElementById("optionalBr").innerHTML = "";
-    }
-}
-
+// - Copying to clipboard -
 function copyStringToClipboard (string) {
     function handler (event){
         event.clipboardData.setData('text/plain', string);
@@ -347,3 +373,32 @@ const email = document.getElementById("email");
 
 copyBubble(discord,"DirkieDurky#3976");
 copyBubble(email,"dirk@freitjers.nl");
+
+// - Responsibility
+function updateScreen() {
+    if (window.innerWidth < 480) {
+        document.getElementById("optionalBr").innerHTML = "<br>";
+    } else {
+        document.getElementById("optionalBr").innerHTML = "";
+    }
+}
+
+/*
+function separate($string)
+{
+    $result = "";
+    $lastCharWasSpace = false;
+    for ($i = 0; $i < strlen($string); $i++) {
+        if (substr($string, $i, 1) == " ") {
+            $lastCharWasSpace = true;
+        }
+        if ($lastCharWasSpace) {
+            $result .= "<span class='titleLetter' style='margin-left: 30px'>" . substr($string, $i, 1) . "</span>";
+            $lastCharWasSpace = false;
+        } else {
+            $result .= "<span class='titleLetter'>" . substr($string, $i, 1) . "</span>";
+        }
+    }
+    return $result;
+}
+ */

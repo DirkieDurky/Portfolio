@@ -1,36 +1,17 @@
-<?php
-/*
- * Todo:
- * Fix: If moving quickly over age things look glitchy
- * Add info
- * Adding english option
- * More cool stuffzies? (Text sliding in animation?)
- * Add text at contact??
- *
- * Ipv Ervaring:
- * Programmeertalen
- * IDE's
- * Other software (Git / Github, Photoshop, Illustrator)
- */
-function separate($string)
-{
-    $result = "";
-    $lastCharWasSpace = false;
-    for ($i = 0; $i < strlen($string); $i++) {
-        if (substr($string, $i, 1) == " ") {
-            $lastCharWasSpace = true;
-        }
-        if ($lastCharWasSpace) {
-            $result .= "<span class='titleLetter' style='margin-left: 30px'>" . substr($string, $i, 1) . "</span>";
-            $lastCharWasSpace = false;
-        } else {
-            $result .= "<span class='titleLetter'>" . substr($string, $i, 1) . "</span>";
-        }
-    }
-    return $result;
-}
-?>
+<!--
+Todo:
+Fix: If moving quickly over age things look glitchy
+Add info
+Adding english option
+More cool stuffzies? (Text sliding in animation?)
+Add text at contact??
 
+Ipv Ervaring:
+Programmeertalen
+IDE's
+Other software (Git / Github, Photoshop, Illustrator)
+
+-->
 <!doctype html>
 <html lang="nl">
 <head>
@@ -44,11 +25,11 @@ function separate($string)
 <body onload="updateScreen()" onresize="updateScreen()">
 <section id="section-title">
     <div id="title">
-        <?= separate("Hallo,") ?>
+        <span id="hello"></span>
         <br>
-        <?= separate("ik ben") ?>
+        <span id="iam"></span>
         <span id="optionalBr"></span>
-        <?= separate("Dirk!") ?>
+        <span id="dirk"></span>
     </div>
 </section>
 <section id="section-aboutMe">
