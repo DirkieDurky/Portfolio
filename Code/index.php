@@ -1,7 +1,6 @@
 <?php
 /*
  * Todo:
- * Increase responsibility -90% done. Fix: if screen is small change height of ageWindow smoothly
  * Test other browsers
  * Add info
  * Adding english option
@@ -78,7 +77,7 @@ function separate($string)
     <div class="flexbox">
         <div class="flexElement">
             <header style="background-color:#f8a41d">
-                <img src="../Sources/Logos/Scratch%20logo.svg" alt="Scratch Logo" width="50">
+                <img src="../Sources/Logos/Scratch%20logo.svg" alt="Scratch Logo" class="logo">
                 <h1 id="drop-shadow">Scratch</h1>
             </header>
             <div class="content">
@@ -91,7 +90,7 @@ function separate($string)
         </div>
         <div class="flexElement">
             <header style="background-color:#78c472">
-                <img src="../Sources/Logos/java.svg" alt="Java Logo" width="50">
+                <img src="../Sources/Logos/java.svg" alt="Java Logo" class="logo">
                 <h1>Java</h1>
             </header>
             <div class="content">
@@ -103,7 +102,7 @@ function separate($string)
         </div>
         <div class="flexElement">
             <header style="background-color:#cb9ddb">
-                <img src="../Sources/Logos/htmlcss.svg" alt="HTML Logo" width="50">
+                <img src="../Sources/Logos/htmlcss.svg" alt="HTML Logo" class="logo">
                 <h1>HTML/CSS</h1>
             </header>
             <div class="content">
@@ -115,7 +114,7 @@ function separate($string)
         </div>
         <div class="flexElement">
             <header style="background-color:#8993be">
-                <img src="../Sources/Logos/php2.svg" alt="PHP Logo" width="50">
+                <img src="../Sources/Logos/php2.svg" alt="PHP Logo" class="logo">
                 <h1>PHP</h1>
             </header>
             <div class="content">
@@ -128,7 +127,7 @@ function separate($string)
         </div>
         <div class="flexElement">
             <header style="background-color:#f0db4f">
-                <img src="../Sources/Logos/javascript.svg" alt="JS Logo" width="50">
+                <img src="../Sources/Logos/javascript.svg" alt="JS Logo" class="logo">
                 <h1>JavaScript</h1>
             </header>
             <div class="content">
@@ -140,7 +139,7 @@ function separate($string)
         </div>
         <div class="flexElement">
             <header style="background-color:#56565c">
-                <img src="../Sources/Logos/Github.svg" alt="JS Logo" width="50">
+                <img src="../Sources/Logos/Github.svg" alt="JS Logo" class="logo">
                 <h1>Github</h1>
             </header>
             <div class="content">
@@ -240,6 +239,12 @@ function separate($string)
         }
     }
 
+    function isTouchDevice() {
+        return (('ontouchstart' in window) ||
+            (navigator.maxTouchPoints > 0) ||
+            (navigator.msMaxTouchPoints > 0));
+    }
+
     async function slideIn() {
         for (let i = 0; i < letters.length; i++) {
             letters[i].style.transition = "color 250ms, transform 250ms";
@@ -248,7 +253,9 @@ function separate($string)
             letters[i].addEventListener('mouseover', function e() {
                 letters[i].style.transition = "color 50ms, transform 50ms";
                 letters[i].style.transitionDelay = "0ms";
-                letters[i].style.transform = "rotate(-15deg)";
+                if (!isTouchDevice()) {
+                    letters[i].style.transform = "rotate(-15deg)";
+                }
             })
             letters[i].addEventListener('mouseleave', function e() {
                 letters[i].style.transition = "color 200ms, transform 200ms";
@@ -376,13 +383,11 @@ function separate($string)
         }, 150);
         clearInterval(window.ageInterval);
         age.innerHTML = calcAge().years + " jaar";
-        age.style.color = "transparent";
-        ageWindow.style.width = "135px";
-        ageWindow.style.height = "50px";
         age.style.fontSize = "40px";
         ageWindow.style.backgroundColor = "unset";
-        age.style.transition = "unset";
         window.i = 0;
+        ageWindow.style.width = "130px";
+        ageWindow.style.height = "50px";
         window.removeInterval = setInterval(function () {
             if (window.i > 1) {
                 clearInterval(removeInterval);
@@ -398,13 +403,11 @@ function separate($string)
 
     ageWindow.addEventListener("mouseenter", async function () {
         clearInterval(window.removeInterval);
-        age.innerHTML = "";
         ageWindow.style.backgroundColor = "white";
+        age.innerHTML = "";
         age.style.color = "white";
         age.style.fontSize = "16px";
-        ageWindow.style.width = aboutMeSpan.offsetWidth - 20 + "px";
-        ageWindow.style.height = "60px";
-        await sleep(150);
+        ageWindow.style.width = aboutMeSpan.offsetWidth-20+"px";
         function setAge() {
             const ageDate = calcAge();
             let result = ageDate.years + " jaar, " + ageDate.months;
@@ -432,14 +435,18 @@ function separate($string)
                 result += " seconden";
             }
             result += " oud om precies te zijn.<br>(2004/04/25 om 23:33)";
-            age.innerHTML = result;
+            return result;
         }
-        setAge();
-        window.ageInterval = setInterval(setAge, 500);
-        await sleep(90);
-        ageWindow.style.height = "auto";
-        age.style.transition = "color 500ms";
+        age.innerHTML = setAge()
+        ageWindow.insertAdjacentHTML("afterend","<span id=heightSetter>"+setAge()+"</span>");
+        const heightSetter = document.getElementById("heightSetter");
+        ageWindow.style.height = heightSetter.offsetHeight+"px";
+        heightSetter.remove();
+        await sleep(100);
         age.style.color = "transparent";
+        window.ageInterval = setInterval(function (){
+            age.innerHTML = setAge()
+            }, 500);
     })
 
     function getDocHeight() {
@@ -468,7 +475,6 @@ function separate($string)
 
     function setScrollTimeout() {
         window.scrollIcon = setTimeout(async function(){
-            console.log(window.amountScrolled);
             if (window.amountScrolled < 95 || window.amountScrolled === undefined) {
                 if (!window.iconActive) {
                     window.iconActive = true;

@@ -45,8 +45,10 @@ section {
     opacity: 0;
 }
 
-.titleLetter:hover {
-    color: #e6649e;
+@media (hover:hover) {
+    .titleLetter:hover {
+        color: #e6649e;
+    }
 }
 
 #age:hover #ageWindow {
@@ -85,22 +87,23 @@ p,h1 {
 #ageWindow {
     position: absolute;
     border-radius: 15px;
-    transition: background-color 200ms, width 400ms, height 400ms, min-height 400ms;
+    transition: background-color 200ms, width 200ms, height 200ms;
     transform: translate(-50%);
     left: 50%;
-    overflow: hidden;
     width: 135px;
     height: 50px;
+    overflow: hidden;
     cursor: pointer;
     padding: 0 10px;
 }
 
 #age {
     position: relative;
-    display: inline-block;
+    display: inline;
     font-size: 40px;
     background: linear-gradient(#e66465, #9198e5);
     color: transparent;
+    transition: color 200ms;
     -webkit-background-clip: text;
     vertical-align: center;
 }
@@ -236,4 +239,14 @@ p,h1 {
 .scroll.right {
     right: 10px;
     left: auto;
+}
+
+.logo {
+    width: 50px;
+}
+
+@media only screen and (max-width: 370px) {
+    .logo {
+        width: 0;
+    }
 }
