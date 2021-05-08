@@ -374,35 +374,29 @@ function separate($string)
 
     age.innerHTML = calcAge().years + " jaar";
 
-    ageWindow.addEventListener("mouseleave", function () {
+    window.ageWindowActive = false;
+
+    function mouseLeave() {
+        age.innerHTML = calcAge().years + " jaar";
         const checkExist = setInterval(function () {
+            console.log("checkExist");
             if (window.ageInterval) {
                 clearInterval(window.ageInterval);
                 clearInterval(checkExist);
+                age.innerHTML = calcAge().years + " jaar";
             }
         }, 150);
-        clearInterval(window.ageInterval);
-        age.innerHTML = calcAge().years + " jaar";
+        window.ageWindowActive = false;
         age.style.fontSize = "40px";
         ageWindow.style.backgroundColor = "unset";
         window.i = 0;
         ageWindow.style.width = "130px";
         ageWindow.style.height = "50px";
-        window.removeInterval = setInterval(function () {
-            if (window.i > 1) {
-                clearInterval(removeInterval);
-                return;
-            }
-            if (window.ageInterval) {
-                clearInterval(window.ageInterval);
-                age.innerHTML = calcAge().years + " jaar";
-            }
-            window.i++
-        }, 200);
-    })
+    }
 
-    ageWindow.addEventListener("mouseenter", async function () {
-        clearInterval(window.removeInterval);
+    async function mouseEnter() {
+        clearInterval(window.ageInterval);
+        window.ageWindowActive = true;
         ageWindow.style.backgroundColor = "white";
         age.innerHTML = "";
         age.style.color = "white";
@@ -437,17 +431,31 @@ function separate($string)
             result += " oud om precies te zijn.<br>(2004/04/25 om 23:33)";
             return result;
         }
-        age.innerHTML = setAge()
         ageWindow.insertAdjacentHTML("afterend","<span id=heightSetter>"+setAge()+"</span>");
         const heightSetter = document.getElementById("heightSetter");
         ageWindow.style.height = heightSetter.offsetHeight+"px";
         heightSetter.remove();
         await sleep(100);
+        age.innerHTML = setAge();
         age.style.color = "transparent";
         window.ageInterval = setInterval(function (){
-            age.innerHTML = setAge()
-            }, 500);
-    })
+            age.innerHTML = setAge();
+            console.log("window.ageInterval");
+        }, 500);
+    }
+
+    if (!isTouchDevice()) {
+        ageWindow.addEventListener("mouseleave", mouseLeave);
+        ageWindow.addEventListener("mouseenter", mouseEnter);
+    } else {
+        ageWindow.addEventListener("click", function() {
+            if (window.ageWindowActive) {
+                mouseLeave();
+            } else {
+                mouseEnter();
+            }
+        });
+    }
 
     function getDocHeight() {
         return Math.max(
