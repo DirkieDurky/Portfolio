@@ -10,7 +10,7 @@ function isTouchDevice() {
 
 // - Title Letters -
 
-function separate(string) {
+function separate(string = "") {
     let result = "";
     let lastCharWasSpace = false;
 
@@ -32,7 +32,7 @@ hello = document.getElementById("hello");
 iam = document.getElementById("iam");
 dirk = document.getElementById("dirk");
 
-hello.insertAdjacentHTML("afterbegin", separate("Hallo, "));
+hello.insertAdjacentHTML("afterbegin", separate("Hallo,"));
 iam.insertAdjacentHTML("afterbegin", separate("ik ben"));
 dirk.insertAdjacentHTML("afterbegin", separate("Dirk!"));
 
@@ -42,11 +42,13 @@ const letters = document.getElementsByClassName('titleLetter');
 const size = 300;
 
 //Send all letters to a random position
+window.rotations = [];
+
 async function randPos() {
     for (let i = 0; i < letters.length; i++) {
         let randX = Math.floor(Math.random() * 1000) - 500;
         let randY = Math.floor(Math.random() * 1000) - 500;
-        let rotation = Math.floor(Math.random() * 180) - 90;
+        const rotation = Math.floor(Math.random() * 180) - 90;
         while (randX > "-" + size && randX < size) {
             randX = Math.floor(Math.random() * 1000) - 500;
         }
@@ -55,35 +57,48 @@ async function randPos() {
         }
         letters[i].style.transition = "a";
         letters[i].style.transform = "translate(" + randX + "%," + randY + "%) rotate(" + rotation + "deg)";
+        window.rotations.push(rotation);
     }
+}
+
+//Make a letter slide on the screen
+async function slideInLetter(i) {
+    letters[i].style.transition = "color 250ms, transform 500ms";
+    letters[i].style.opacity = "100";
+    letters[i].style.transform = "translate(0,0) rotate(0deg)";
 }
 
 //Make all letters slide on screen
 async function slideIn() {
     for (let i = 0; i < letters.length; i++) {
-        letters[i].style.transition = "color 250ms, transform 250ms";
-        letters[i].style.opacity = "100";
-        letters[i].style.transform = "translate(0,0) rotate(0deg)";
-        letters[i].addEventListener('mouseover', function e() {
+        slideInLetter(i);
+        await sleep(100);
+    }
+}
+
+function setHoverEvents() {
+    for (let i = 0; i < letters.length; i++) {
+        letters[i].addEventListener('mouseover', function () {
             letters[i].style.transition = "color 50ms, transform 50ms";
             letters[i].style.transitionDelay = "0ms";
             if (!isTouchDevice()) {
                 letters[i].style.transform = "rotate(-15deg)";
             }
         })
-        letters[i].addEventListener('mouseleave', function e() {
+        letters[i].addEventListener('mouseleave', function () {
             letters[i].style.transition = "color 200ms, transform 200ms";
             letters[i].style.transitionDelay = "200ms";
             letters[i].style.transform = "";
         })
-        await sleep(100);
     }
 }
+
 
 async function callFunc() {
     await randPos();
     await sleep(100);
     await slideIn();
+    await setHoverEvents()
 }
 
 callFunc();
@@ -278,15 +293,6 @@ if (!isTouchDevice()) {
 }
 
 // - Scroll arrows -
-function getDocHeight() {
-    return Math.max(
-        document.body.scrollHeight, document.documentElement.scrollHeight,
-        document.body.offsetHeight, document.documentElement.offsetHeight,
-        document.body.clientHeight, document.documentElement.clientHeight
-    )
-}
-
-const docHeight = getDocHeight();
 
 document.addEventListener("scroll", function () {
     //Get scrolled height
