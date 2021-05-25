@@ -63,7 +63,7 @@ async function randPos() {
 
 //Make a letter slide on the screen
 async function slideInLetter(i) {
-    letters[i].style.transition = "color 250ms, transform 500ms";
+    letters[i].style.transition = "color 250ms, transform 250ms";
     letters[i].style.opacity = "100";
     letters[i].style.transform = "translate(0,0) rotate(0deg)";
 }
@@ -203,21 +203,25 @@ function calcAge() {
     };
 }
 
-let ageWindow = document.getElementById('ageWindow');
-let age = document.getElementById('age');
-let aboutMeSpan = document.getElementById("aboutMe").getElementsByTagName("span")[0];
+const ageWindow = document.getElementById('ageWindow');
+const age = document.getElementById('age');
+const aboutMeSpan = document.getElementById("aboutMe").getElementsByTagName("span")[0];
+const ageUnderline = document.getElementById('ageUnderline');
 
 age.innerHTML = calcAge().years + " jaar";
 
 window.ageWindowActive = false;
 
 function mouseLeave() {
-    age.innerHTML = calcAge().years + " jaar";
+    age.style.opacity = "0";
+    ageUnderline.style.opacity = "0";
     const checkExist = setInterval(function () {
         if (window.ageInterval) {
             clearInterval(window.ageInterval);
             clearInterval(checkExist);
             age.innerHTML = calcAge().years + " jaar";
+            age.style.opacity = "1";
+            ageUnderline.style.opacity = "1";
         }
     }, 150);
     window.ageWindowActive = false;
@@ -236,6 +240,7 @@ async function mouseEnter() {
     age.style.color = "white";
     age.style.fontSize = "16px";
     ageWindow.style.width = aboutMeSpan.offsetWidth - 20 + "px";
+    ageUnderline.style.opacity = "0";
 
     function setAge() {
         const ageDate = calcAge();

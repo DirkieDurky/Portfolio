@@ -101,11 +101,23 @@ p,h1 {
     position: relative;
     display: inline;
     font-size: 40px;
-    background: linear-gradient(#e66465, #9198e5);
-    color: transparent;
     transition: color 200ms;
+    -webkit-text-fill-color: transparent;
+    background: linear-gradient(#e66465, #9198e5);
     -webkit-background-clip: text;
     vertical-align: center;
+    text-decoration: underline !important;
+}
+
+#ageUnderline {
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    height: 2px;
+    width: 80%;
+    transform: translate(-50%);
+    border-radius: 5px;
+    background: linear-gradient(#e66465, #9198e5);
 }
 
 .flexbox {
@@ -123,7 +135,7 @@ p,h1 {
     position: relative;
     display: inline-block;
     width: 390px;
-    min-height: 400px;
+    min-height: 350px;
     background-color: white;
     border-radius: 20px;
     overflow: hidden;
