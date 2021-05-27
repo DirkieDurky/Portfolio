@@ -28,6 +28,8 @@ function separate(string = "") {
     return result;
 }
 
+window.addEventListener('load', function () {
+
 hello = document.getElementById("hello");
 iam = document.getElementById("iam");
 dirk = document.getElementById("dirk");
@@ -93,7 +95,6 @@ function setHoverEvents() {
     }
 }
 
-
 async function callFunc() {
     await randPos();
     await sleep(100);
@@ -102,7 +103,7 @@ async function callFunc() {
 }
 
 callFunc();
-
+})
 // - Exact age calculation -
 let dob = new Date(1082928780000);
 
