@@ -14,10 +14,6 @@ body {
     background-color: #1d1d1d;
 }
 
-* {
-    margin-right: 0;
-}
-
 #section-title {
     height: 100vh;
     margin-bottom: 5%;
@@ -118,7 +114,7 @@ p,h1 {
 }
 
 #ageUnderline {
-    position: absolute;
+    position: absolute !important;
     bottom: 2px;
     left: 50%;
     height: 2px;
