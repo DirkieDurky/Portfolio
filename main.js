@@ -28,8 +28,6 @@ function separate(string = "") {
     return result;
 }
 
-window.addEventListener('load', function () {
-
 hello = document.getElementById("hello");
 iam = document.getElementById("iam");
 dirk = document.getElementById("dirk");
@@ -96,14 +94,16 @@ function setHoverEvents() {
 }
 
 async function callFunc() {
+    await setHoverEvents()
     await randPos();
     await sleep(100);
     await slideIn();
-    await setHoverEvents()
 }
 
+window.addEventListener('load', function () {
 callFunc();
 })
+
 // - Exact age calculation -
 let dob = new Date(1082928780000);
 
@@ -384,7 +384,7 @@ const discord = document.getElementById("discord");
 const email = document.getElementById("email");
 
 copyBubble(discord,"DirkieDurky#3976");
-copyBubble(email,"dirk@freitjers.nl");
+copyBubble(email,"dirk@freijters.nl");
 
 // - Responsibility
 function updateScreen() {
