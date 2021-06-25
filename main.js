@@ -10,21 +10,15 @@ function isTouchDevice() {
 
 // - Title Letters -
 
-function separate(string = "") {
+function separate(string)
+{
     let result = "";
-    let lastCharWasSpace = false;
 
-    for (let i=0;i<string.length;i++) {
-        if (string.charAt(i) === " ") {
-            lastCharWasSpace = true;
-        }
-        if (lastCharWasSpace) {
-            result += "<span class='titleLetter' style='margin-left: 30px'>" + string.charAt(i) + "</span>";
-            lastCharWasSpace = false;
-        } else {
-            result += "<span class='titleLetter'>" + string.charAt(i) + "</span>"
-        }
+    for (const character of string)
+    {
+        result += `<span class="titleLetter" ${character === " " ? 'style="margin-left: 30px;"' : ''}>${character}</span>`;
     }
+    
     return result;
 }
 
