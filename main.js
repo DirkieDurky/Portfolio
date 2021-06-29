@@ -16,7 +16,7 @@ function separate(string)
 
     for (const character of string)
     {
-        result += `<span class="titleLetter" ${character === " " ? 'style="margin-left: 30px;"' : ''}>${character}</span>`;
+        result += `<span class="titleLetter ${character === " " ? 'titleSpace' : ''}">${character}</span>`;
     }
     
     return result;
@@ -39,7 +39,7 @@ const size = 300;
 window.rotations = [];
 
 async function randPos() {
-    for (let i = 0; i < letters.length; i++) {
+    for (const letter of letters) {
         let randX = Math.floor(Math.random() * 1000) - 500;
         let randY = Math.floor(Math.random() * 1000) - 500;
         const rotation = Math.floor(Math.random() * 180) - 90;
@@ -49,40 +49,40 @@ async function randPos() {
         while (randY > "-" + size && randY < size) {
             randY = Math.floor(Math.random() * 1000) - 500;
         }
-        letters[i].style.transition = "a";
-        letters[i].style.transform = "translate(" + randX + "%," + randY + "%) rotate(" + rotation + "deg)";
+        letter.style.transition = "a";
+        letter.style.transform = "translate(" + randX + "%," + randY + "%) rotate(" + rotation + "deg)";
         window.rotations.push(rotation);
     }
 }
 
 //Make a letter slide on the screen
-async function slideInLetter(i) {
-    letters[i].style.transition = "color 250ms, transform 250ms";
-    letters[i].style.opacity = "100";
-    letters[i].style.transform = "translate(0,0) rotate(0deg)";
+async function slideInLetter(letter) {
+    letter.style.transition = "color 250ms, transform 250ms";
+    letter.style.opacity = "100";
+    letter.style.transform = "translate(0,0) rotate(0deg)";
 }
 
 //Make all letters slide on screen
 async function slideIn() {
-    for (let i = 0; i < letters.length; i++) {
-        slideInLetter(i);
+    for (const letter of letters) {
+        slideInLetter(letter);
         await sleep(100);
     }
 }
 
 function setHoverEvents() {
-    for (let i = 0; i < letters.length; i++) {
-        letters[i].addEventListener('mouseover', function () {
-            letters[i].style.transition = "color 50ms, transform 50ms";
-            letters[i].style.transitionDelay = "0ms";
+    for (const letter of letters) {
+        letter.addEventListener('mouseover', function () {
+            letter.style.transition = "color 50ms, transform 50ms";
+            letter.style.transitionDelay = "0ms";
             if (!isTouchDevice()) {
-                letters[i].style.transform = "rotate(-15deg)";
+                letter.style.transform = "rotate(-15deg)";
             }
         })
-        letters[i].addEventListener('mouseleave', function () {
-            letters[i].style.transition = "color 200ms, transform 200ms";
-            letters[i].style.transitionDelay = "200ms";
-            letters[i].style.transform = "";
+        letter.addEventListener('mouseleave', function () {
+            letter.style.transition = "color 200ms, transform 200ms";
+            letter.style.transitionDelay = "200ms";
+            letter.style.transform = "";
         })
     }
 }
@@ -207,7 +207,39 @@ age.innerHTML = calcAge().years + " jaar";
 
 window.ageWindowActive = false;
 
+function setAge() {
+    const ageDate = calcAge();
+    let result = ageDate.years + " jaar, " + ageDate.months;
+    if (ageDate.months === 1) {
+        result += " maand, ";
+    } else {
+        result += " maanden, "
+    }
+    result += ageDate.days;
+    if (ageDate.days === 1) {
+        result += " dag, ";
+    } else {
+        result += " dagen, ";
+    }
+    result += ageDate.hours + " uur, " + ageDate.mins;
+    if (ageDate.mins === 1) {
+        result += " minuut,<br>en ";
+    } else {
+        result += " minuten,<br>en ";
+    }
+    result += ageDate.secs;
+    if (ageDate.secs === 1) {
+        result += " seconde";
+    } else {
+        result += " seconden";
+    }
+    result += " oud om precies te zijn. ;)<br>(2004/04/25 om 23:33)";
+    return result;
+}
+
 function mouseLeave() {
+    age.classList.remove("ageHover");
+    age.classList.add("ageDefault");
     age.style.opacity = "0";
     ageUnderline.style.opacity = "0";
     const checkExist = setInterval(function () {
@@ -220,7 +252,6 @@ function mouseLeave() {
         }
     }, 150);
     window.ageWindowActive = false;
-    age.style.fontSize = "40px";
     ageWindow.style.backgroundColor = "unset";
     window.i = 0;
     ageWindow.style.width = "130px";
@@ -232,40 +263,10 @@ async function mouseEnter() {
     window.ageWindowActive = true;
     ageWindow.style.backgroundColor = "white";
     age.innerHTML = "";
-    age.style.color = "white";
-    age.style.fontSize = "16px";
     ageWindow.style.width = aboutMeSpan.offsetWidth - 20 + "px";
     ageUnderline.style.opacity = "0";
-
-    function setAge() {
-        const ageDate = calcAge();
-        let result = ageDate.years + " jaar, " + ageDate.months;
-        if (ageDate.months === 1) {
-            result += " maand, ";
-        } else {
-            result += " maanden, "
-        }
-        result += ageDate.days;
-        if (ageDate.days === 1) {
-            result += " dag, ";
-        } else {
-            result += " dagen, ";
-        }
-        result += ageDate.hours + " uur, " + ageDate.mins;
-        if (ageDate.mins === 1) {
-            result += " minuut,<br>en ";
-        } else {
-            result += " minuten,<br>en ";
-        }
-        result += ageDate.secs;
-        if (ageDate.secs === 1) {
-            result += " seconde";
-        } else {
-            result += " seconden";
-        }
-        result += " oud om precies te zijn. ;)<br>(2004/04/25 om 23:33)";
-        return result;
-    }
+    age.classList.remove("ageDefault");
+    age.classList.add("ageHover");
 
     ageWindow.insertAdjacentHTML("afterend", "<span id=heightSetter>" + setAge() + "</span>");
     const heightSetter = document.getElementById("heightSetter");
@@ -273,7 +274,6 @@ async function mouseEnter() {
     heightSetter.remove();
     await sleep(100);
     age.innerHTML = setAge();
-    age.style.color = "transparent";
     window.ageInterval = setInterval(function () {
         age.innerHTML = setAge();
     }, 500);
@@ -293,8 +293,10 @@ if (!isTouchDevice()) {
 }
 
 // - Scroll arrows -
+setAmountScrolled();
+document.addEventListener("scroll", setAmountScrolled);
 
-document.addEventListener("scroll", function () {
+function setAmountScrolled() {
     //Get scrolled height
     const winHeight = window.innerHeight || (document.documentElement || document.body).clientHeight;
     //Get total document height
@@ -306,45 +308,71 @@ document.addEventListener("scroll", function () {
     const scrollTop = window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop;
     const trackLength = docHeight - winHeight;
     window.amountScrolled = Math.floor(scrollTop / trackLength * 100);
-})
-
-function setScrollTimeout() {
-    window.scrollIcon = setTimeout(async function () {
-        if (window.amountScrolled < 95 || window.amountScrolled === undefined) {
-            if (!window.iconActive) {
-                window.iconActive = true;
-                document.body.insertAdjacentHTML("beforeend",
-                    "<div class=\"scroll\"> Scroll gerust verder " +
-                    "<div class=\"arrow\"></div>" +
-                    "</div>" +
-                    "<div class=\"scroll right\"> Scroll gerust verder " +
-                    "<div class=\"arrow\"></div>" +
-                    "</div>");
-                window.scrollElem = document.getElementsByClassName("scroll");
-                await sleep(200);
-                for (let i = 0; i < window.scrollElem.length; i++) {
-                    window.scrollElem[i].style.opacity = "100";
-                }
-            }
-        }
-    }, 10000)
 }
 
-setScrollTimeout();
+updateScrollTimeout();
 
-document.addEventListener("scroll", async function () {
+document.addEventListener("scroll", updateScrollTimeout);
+
+let oldScrollTimeout = "";
+
+async function updateScrollTimeout() {
     window.iconActive = false;
     window.scrollElem = document.getElementsByClassName("scroll");
-    for (let i = 0; i < window.scrollElem.length; i++) {
-        window.scrollElem[i].style.opacity = "0";
+    for (const el of window.scrollElem) {
+        el.style.opacity = "0";
     }
     await sleep(200);
-    for (let i = 0; i < window.scrollElem.length; i++) {
-        window.scrollElem[i].remove();
+    for (const el of window.scrollElem) {
+        el.remove();
     }
     clearTimeout(window.scrollIcon);
-    setScrollTimeout();
-})
+    let scrollTimeout;
+    if (window.amountScrolled < 5) {
+        scrollTimeout = 8000;
+    } else if (window.amountScrolled < 17) {
+        scrollTimeout = 15000;
+    } else if (window.amountScrolled < 33) {
+        scrollTimeout = 43000;
+    } else if (window.amountScrolled < 68) {
+        scrollTimeout = 120000;
+    } else if (window.amountScrolled < 83) {
+        scrollTimeout = 25000;
+    }
+    if (oldScrollTimeout !== "") {
+        if (oldScrollTimeout !== scrollTimeout) {
+            setScrollTimeout(scrollTimeout);
+        }
+    } else {
+        if (scrollTimeout) {
+            setScrollTimeout(scrollTimeout);
+        }
+    }
+    oldScrollTimeout = scrollTimeout;
+}
+
+function setScrollTimeout(timeout) {
+    console.log(timeout);
+        window.scrollIcon = setTimeout(async function () {
+            if (window.amountScrolled < 95 || window.amountScrolled === undefined) {
+                if (!window.iconActive) {
+                    window.iconActive = true;
+                    document.body.insertAdjacentHTML("beforeend",
+                        "<div class=\"scroll\"> Scroll gerust verder " +
+                        "<div class=\"arrow\"></div>" +
+                        "</div>" +
+                        "<div class=\"scroll right\"> Scroll gerust verder " +
+                        "<div class=\"arrow\"></div>" +
+                        "</div>");
+                    window.scrollElem = document.getElementsByClassName("scroll");
+                    await sleep(200);
+                    for (const elem of window.scrollElem) {
+                        elem.style.opacity = "100";
+                    }
+                }
+            }
+        }, timeout)
+}
 
 // - Copying to clipboard -
 function copyStringToClipboard (string) {
@@ -388,23 +416,3 @@ function updateScreen() {
         document.getElementById("optionalBr").innerHTML = "";
     }
 }
-
-/*
-function separate($string)
-{
-    $result = "";
-    $lastCharWasSpace = false;
-    for ($i = 0; $i < strlen($string); $i++) {
-        if (substr($string, $i, 1) == " ") {
-            $lastCharWasSpace = true;
-        }
-        if ($lastCharWasSpace) {
-            $result .= "<span class='titleLetter' style='margin-left: 30px'>" . substr($string, $i, 1) . "</span>";
-            $lastCharWasSpace = false;
-        } else {
-            $result .= "<span class='titleLetter'>" . substr($string, $i, 1) . "</span>";
-        }
-    }
-    return $result;
-}
- */

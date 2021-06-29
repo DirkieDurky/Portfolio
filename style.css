@@ -104,13 +104,10 @@ p,h1 {
 #age {
     position: relative;
     display: inline;
-    font-size: 40px;
     transition: color 200ms;
-    -webkit-text-fill-color: transparent;
-    background: linear-gradient(#e66465, #9198e5);
     -webkit-background-clip: text;
     vertical-align: center;
-    text-decoration: underline !important;
+    -webkit-text-fill-color: transparent;
 }
 
 #ageUnderline {
@@ -122,6 +119,16 @@ p,h1 {
     transform: translate(-50%);
     border-radius: 5px;
     background: linear-gradient(#e66465, #9198e5);
+}
+
+.ageDefault {
+    background: linear-gradient(#e66465, #9198e5);
+    font-size: 40px;
+}
+
+.ageHover {
+    background: linear-gradient(black, darkgrey);
+    font-size: 16px;
 }
 
 .flexbox {
@@ -270,4 +277,8 @@ p,h1 {
     .logo {
         width: 0;
     }
+}
+
+.titleSpace {
+    margin-left: 30px;
 }
