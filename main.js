@@ -258,7 +258,7 @@ function mouseLeave() {
     ageWindow.style.height = "50px";
 }
 
-async function mouseEnter() {
+function mouseEnter() {
     clearInterval(window.ageInterval);
     window.ageWindowActive = true;
     ageWindow.style.backgroundColor = "white";
@@ -272,7 +272,6 @@ async function mouseEnter() {
     const heightSetter = document.getElementById("heightSetter");
     ageWindow.style.height = heightSetter.offsetHeight + "px";
     heightSetter.remove();
-    await sleep(100);
     age.innerHTML = setAge();
     window.ageInterval = setInterval(function () {
         age.innerHTML = setAge();
@@ -291,6 +290,16 @@ if (!isTouchDevice()) {
         }
     });
 }
+
+ageWindow.addEventListener("keydown", e => {
+        if (e.isComposing || e.keyCode === 13) {
+            if (window.ageWindowActive) {
+                mouseLeave();
+            } else {
+                mouseEnter();
+            }
+        }
+});
 
 // - Scroll arrows -
 setAmountScrolled();
@@ -352,7 +361,6 @@ async function updateScrollTimeout() {
 }
 
 function setScrollTimeout(timeout) {
-    console.log(timeout);
         window.scrollIcon = setTimeout(async function () {
             if (window.amountScrolled < 95 || window.amountScrolled === undefined) {
                 if (!window.iconActive) {
@@ -388,27 +396,40 @@ function copyStringToClipboard (string) {
 
 window.active = 0;
 //Puts something in the users clipboard when clicked and makes a bubble pop up
-function copyBubble(elem,copy) {
+function setCopyEventListeners(elem,copy) {
     elem.addEventListener("click", function(){
-        if (window.active !== elem) {
-            copyStringToClipboard(copy);
-            elem.insertAdjacentHTML("beforebegin", "<div class=\"bubble\">Gekopieerd!</div>");
-            window.active = elem;
-            setTimeout(function () {
-                elem.parentNode.removeChild(elem.parentNode.children[0]);
-                window.active = 0;
-            }, 1000)
+        copyBubble(elem,copy);
+    })
+    elem.addEventListener("keydown", e => {
+        if (e.isComposing || e.keyCode === 13) {
+            copyBubble(elem, copy);
         }
     })
 }
 
-const discord = document.getElementById("discord");
-const email = document.getElementById("email");
+function copyBubble(elem,copy) {
+    if (window.active !== elem) {
+        copyStringToClipboard(copy);
+        elem.insertAdjacentHTML("afterbegin", "<div class=\"bubble\">Gekopieerd!</div>");
+        window.active = elem;
+        setTimeout(function () {
+            for (let i=0;i<elem.childNodes.length;i++) {
+                if (elem.childNodes[i].className === "bubble"){
+                    elem.childNodes[i].remove();
+                }
+            }
+            window.active = 0;
+        }, 1000)
+    }
+}
 
-copyBubble(discord,"DirkieDurky#3976");
-copyBubble(email,"dirk@freijters.nl");
+const discord = document.getElementById("discordLink");
+const email = document.getElementById("emailLink");
 
-// - Responsibility
+setCopyEventListeners(discord,"DirkieDurky#3976");
+setCopyEventListeners(email,"dirk@freijters.nl");
+
+// - Responsibility -
 function updateScreen() {
     if (window.innerWidth < 480) {
         document.getElementById("optionalBr").innerHTML = "<br>";
