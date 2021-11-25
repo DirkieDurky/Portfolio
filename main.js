@@ -426,7 +426,7 @@ function copyBubble(elem,copy) {
 const discord = document.getElementById("discordLink");
 const email = document.getElementById("emailLink");
 
-setCopyEventListeners(discord,"DirkieDurky#3976");
+setCopyEventListeners(discord,"DirkieDurky#5175");
 setCopyEventListeners(email,"dirk@freijters.nl");
 
 // - Responsibility -
