@@ -1,0 +1,44 @@
+current_time
+{
+	ip
+		ip4
+		ip6
+	location
+		continent
+		country
+		region
+		city
+		postal
+		location
+	security
+		is_bogon
+		is_cloud_provider
+		is_tor
+		is_tor_exit
+		is_proxy
+		is_anonymous
+		is_abuser
+		is_attacker
+		is_threat
+	time_zone
+		id
+		abbreviation
+		name
+	user_agent
+		header
+		name
+		type
+		version
+		device
+			brand
+			name
+			type
+		engine
+			name
+			type
+			version
+		os
+			name
+			type
+			version
+}
