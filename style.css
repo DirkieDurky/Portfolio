@@ -1,11 +1,11 @@
 @font-face {
     font-family: Coolvetica;
-    src: url("Sources/coolvetica rg.ttf")
+    src: url("sources/coolvetica rg.ttf")
 }
 
 @font-face {
     font-family: Torus Regular;
-    src: url("Sources/Torus Regular.otf")
+    src: url("sources/Torus Regular.otf")
 }
 
 body {

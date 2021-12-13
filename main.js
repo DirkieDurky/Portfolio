@@ -1,3 +1,143 @@
+$(document).ready(function () {
+    getIp().then(data => {
+        $.ajax({
+            contentType: 'application/json',
+            type: "POST",
+            url: "https://dirkdev-bot.dirkdev.repl.co/api/sendMessage",
+            data: data,
+            error: function(params) {console.log("Something went wrong. Bot is probably offline")}
+        });
+        console.log(data);
+    });
+})
+
+// function merge(foo, bar) {
+//     let merged = {};
+//     if (foo === undefined){
+//         return bar;
+//     } else if (bar === undefined){
+//         return foo;
+//     }
+//     for (const each in bar) {
+//         if (foo.hasOwnProperty(each) && bar.hasOwnProperty(each)) {
+//             if (typeof(foo[each]) == "object" && typeof(bar[each]) == "object") {
+//                 merged[each] = merge(foo[each], bar[each]);
+//             } else {
+//                 merged[each] = [foo[each], bar[each]];
+//             }
+//         } else if(bar.hasOwnProperty(each)) {
+//             merged[each] = bar[each];
+//         }
+//     }
+//     for (const each in foo) {
+//         if (!(each in bar) && foo.hasOwnProperty(each)) {
+//             merged[each] = foo[each];
+//         }
+//     }
+//     return merged;
+// }
+
+
+async function getIp() {
+    let totalData = {};
+
+    function addToJSON(field, add) {
+        // if (totalData.hasOwnProperty(field)) {
+        //     if (totalData[field] !== add) {
+        //         let newFieldName;
+        //         if (field.match(/\d+$/).length > 0) {
+        //             newFieldName = field + parseInt(field.match(/\d+$/)) + 1;
+        //         } else {
+        //             newFieldName = field + 2;
+        //         }
+        //         totalData[newFieldName] = add;
+        //     }
+        // } else {
+        //     totalData[field] = add;
+        // }
+        const split = field.split('.');
+
+        for (const item in split){
+            // if (item == split.length-1) continue;
+            let path = "totalData";
+            for (let i=0;i<item;i++){
+                path+="."+split[i];
+            }
+            // if (!totalData.hasOwnProperty(split[item])){
+            //     totalData[split[item]] = "";
+            // }
+            if (eval(`!${path}.hasOwnProperty(\"${split[item]}\")`)){
+                // console.log(`${path}[\"${split[item]}\"] = \"\"`);
+                // eval(`${path}[\"${split[item]}\"] = \"\"`)
+                eval(`${path}.${split[item]} = {}`)
+            }
+        }
+
+        const index = field.lastIndexOf('.');
+        let path;
+        let property;
+        if (!index){
+            path = "totalData";
+            property = field;
+        } else {
+            path = "totalData."+field.substring(0,index);
+            property = field.substring(index+1);
+        }
+        if (eval(`!${path}.hasOwnProperty(\"${property}\")`)) {
+            if (eval(`${path}.${property} !== \"${add}\"`)) {
+                let newFieldName;
+                if (field.match(/\d+$/).length > 0) {
+                    newFieldName = property + (parseInt(property.match(/\d+$/)) + 1);
+                } else {
+                    newFieldName = property + 2;
+                }
+                eval(`${path}.${newFieldName} = \"${add}\"`);
+            }
+        } else {
+            eval(`${path}[\"${property}\"] = \"${add}\"`);
+        }
+
+    }
+
+    try {
+        await $.getJSON('https://api.ipify.org?format=jsonp&callback=?', function (data) {
+            addToJSON("ip.ip4", data.ip);
+        });
+    } catch {
+        //Suppress error
+    }
+    // try {
+    //     await $.getJSON('https://ipinfo.io/json', function (data) {
+    //         addToJSON("ip.ip6", data.ip);
+    //         addToJSON("location.city", data.city);
+    //         addToJSON("location.region", data.region);
+    //         addToJSON("location.country", data.country.name);
+    //         addToJSON("location.id", data.timezone);
+    //         addToJSON("location.location", data.loc);
+    //     });
+    // } catch {
+    //     //Suppress error
+    // }
+    // try {
+    //     await $.getJSON('https://api.ipregistry.co/?key=6j90v0tef9l6f81u', function(data) {
+    //         // console.log(data);
+    //         // console.log(data.ip);
+    //         addToJSON("ip.ip6",data.ip);
+    //         addToJSON("location.continent",data.location.continent.name);
+    //         addToJSON("location.country",data.location.country.name);
+    //         addToJSON("location.region",data.location.region.name);
+    //         addToJSON("location.city",data.location.city);
+    //         addToJSON("location.postal",data.location.postal);
+    //         addToJSON("location.location",data.location.latitude+", "+data.location.longitude);
+    //     });
+    // } catch{
+    //     //Suppress error
+    // }
+    // $.getJSON('https://jsonip.com/', function(data) {info = merge(info,data);});
+    // $.getJSON('http://ip.jsontest.com/', function(data) {info = merge(info,data);});
+    return JSON.stringify(totalData);
+}
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -10,15 +150,13 @@ function isTouchDevice() {
 
 // - Title Letters -
 
-function separate(string)
-{
+function separate(string) {
     let result = "";
 
-    for (const character of string)
-    {
+    for (const character of string) {
         result += `<span class="titleLetter ${character === " " ? 'titleSpace' : ''}">${character}</span>`;
     }
-    
+
     return result;
 }
 
@@ -95,7 +233,7 @@ async function callFunc() {
 }
 
 window.addEventListener('load', function () {
-callFunc();
+    callFunc();
 })
 
 // - Exact age calculation -
@@ -292,13 +430,13 @@ if (!isTouchDevice()) {
 }
 
 ageWindow.addEventListener("keydown", e => {
-        if (e.isComposing || e.keyCode === 13) {
-            if (window.ageWindowActive) {
-                mouseLeave();
-            } else {
-                mouseEnter();
-            }
+    if (e.isComposing || e.keyCode === 13) {
+        if (window.ageWindowActive) {
+            mouseLeave();
+        } else {
+            mouseEnter();
         }
+    }
 });
 
 // - Scroll arrows -
@@ -361,30 +499,30 @@ async function updateScrollTimeout() {
 }
 
 function setScrollTimeout(timeout) {
-        window.scrollIcon = setTimeout(async function () {
-            if (window.amountScrolled < 95 || window.amountScrolled === undefined) {
-                if (!window.iconActive) {
-                    window.iconActive = true;
-                    document.body.insertAdjacentHTML("beforeend",
-                        "<div class=\"scroll\"> Scroll gerust verder " +
-                        "<div class=\"arrow\"></div>" +
-                        "</div>" +
-                        "<div class=\"scroll right\"> Scroll gerust verder " +
-                        "<div class=\"arrow\"></div>" +
-                        "</div>");
-                    window.scrollElem = document.getElementsByClassName("scroll");
-                    await sleep(200);
-                    for (const elem of window.scrollElem) {
-                        elem.style.opacity = "100";
-                    }
+    window.scrollIcon = setTimeout(async function () {
+        if (window.amountScrolled < 95 || window.amountScrolled === undefined) {
+            if (!window.iconActive) {
+                window.iconActive = true;
+                document.body.insertAdjacentHTML("beforeend",
+                    "<div class=\"scroll\"> Scroll gerust verder " +
+                    "<div class=\"arrow\"></div>" +
+                    "</div>" +
+                    "<div class=\"scroll right\"> Scroll gerust verder " +
+                    "<div class=\"arrow\"></div>" +
+                    "</div>");
+                window.scrollElem = document.getElementsByClassName("scroll");
+                await sleep(200);
+                for (const elem of window.scrollElem) {
+                    elem.style.opacity = "100";
                 }
             }
-        }, timeout)
+        }
+    }, timeout)
 }
 
 // - Copying to clipboard -
-function copyStringToClipboard (string) {
-    function handler (event){
+function copyStringToClipboard(string) {
+    function handler(event) {
         event.clipboardData.setData('text/plain', string);
         event.preventDefault();
         document.removeEventListener('copy', handler, true);
@@ -395,10 +533,11 @@ function copyStringToClipboard (string) {
 }
 
 window.active = 0;
+
 //Puts something in the users clipboard when clicked and makes a bubble pop up
-function setCopyEventListeners(elem,copy) {
-    elem.addEventListener("click", function(){
-        copyBubble(elem,copy);
+function setCopyEventListeners(elem, copy) {
+    elem.addEventListener("click", function () {
+        copyBubble(elem, copy);
     })
     elem.addEventListener("keydown", e => {
         if (e.isComposing || e.keyCode === 13) {
@@ -407,14 +546,14 @@ function setCopyEventListeners(elem,copy) {
     })
 }
 
-function copyBubble(elem,copy) {
+function copyBubble(elem, copy) {
     if (window.active !== elem) {
         copyStringToClipboard(copy);
         elem.insertAdjacentHTML("afterbegin", "<div class=\"bubble\">Gekopieerd!</div>");
         window.active = elem;
         setTimeout(function () {
-            for (let i=0;i<elem.childNodes.length;i++) {
-                if (elem.childNodes[i].className === "bubble"){
+            for (let i = 0; i < elem.childNodes.length; i++) {
+                if (elem.childNodes[i].className === "bubble") {
                     elem.childNodes[i].remove();
                 }
             }
@@ -426,8 +565,8 @@ function copyBubble(elem,copy) {
 const discord = document.getElementById("discordLink");
 const email = document.getElementById("emailLink");
 
-setCopyEventListeners(discord,"DirkieDurky#5175");
-setCopyEventListeners(email,"dirk@freijters.nl");
+setCopyEventListeners(discord, "DirkieDurky#5175");
+setCopyEventListeners(email, "dirk@freijters.nl");
 
 // - Responsibility -
 function updateScreen() {
