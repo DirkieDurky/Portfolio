@@ -504,10 +504,10 @@ function setScrollTimeout(timeout) {
             if (!window.iconActive) {
                 window.iconActive = true;
                 document.body.insertAdjacentHTML("beforeend",
-                    "<div class=\"scroll\"> Scroll gerust verder " +
+                    "<div class=\"scroll noselect\"> Scroll gerust verder " +
                     "<div class=\"arrow\"></div>" +
                     "</div>" +
-                    "<div class=\"scroll right\"> Scroll gerust verder " +
+                    "<div class=\"scroll right noselect\"> Scroll gerust verder " +
                     "<div class=\"arrow\"></div>" +
                     "</div>");
                 window.scrollElem = document.getElementsByClassName("scroll");
