@@ -10,6 +10,7 @@
 
 body {
     font-family: Torus Regular, serif;
+    color: white;
     margin: 0;
     background-color: #1d1d1d;
 }
@@ -147,7 +148,7 @@ p,h1 {
     display: inline-block;
     width: 390px;
     min-height: 350px;
-    background-color: white;
+    background-color: #323232;
     border-radius: 20px;
     overflow: hidden;
     margin: 20px;
