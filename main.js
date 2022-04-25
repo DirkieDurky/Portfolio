@@ -1,140 +1,186 @@
-$(document).ready(function () {
-    getIp().then(data => {
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) === 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+$(document).ready(async function () {
+    const id = getCookie("id");
+    // if (id.length < 1) {
+    //     function getNewID() {
+    //         $.ajax({
+    //             url: "https://dirkdev-bot.dirkdev.repl.co/api/getNewID",
+    //             type: 'GET',
+    //             success: function (newID) {
+    //                 document.cookie = `id=${newID}; expires=Thu, 01 Jan 9999 00:00:00 UTC; path=/; secure`;
+    //                 console.log(`Yayee, we got a new ID! ${newID}`);
+    //             }
+    //         });
+    //     }
+    //     await getNewID();
+    // }
+    getInfo().then(info => {
         $.ajax({
             contentType: 'application/json',
             type: "POST",
-            url: "https://dirkdev-bot.dirkdev.repl.co/api/sendMessage",
-            data: data,
-            error: function(params) {console.log("Something went wrong. Bot is probably offline")}
-        });
-        console.log(data);
+            url: "https://dirkdev-bot.dirkdev.repl.co/api/userLogOn",
+            data: JSON.stringify({id: id || -1, info: info}),
+            success: function (newIDString){
+                if (!id){
+                    const newID = parseInt(newIDString);
+                    document.cookie = `id=${newID}; expires=Thu, 01 Jan 9999 00:00:00 UTC; path=/; secure`;
+                    console.log(`Yayee, we got a new ID! ${newID}`);
+                }
+            },
+            error: function (params) {
+                console.log("Something went wrong. Bot is probably offline")
+            }
+        })
+        console.log(info);
     });
+
 })
 
-// function merge(foo, bar) {
-//     let merged = {};
-//     if (foo === undefined){
-//         return bar;
-//     } else if (bar === undefined){
-//         return foo;
-//     }
-//     for (const each in bar) {
-//         if (foo.hasOwnProperty(each) && bar.hasOwnProperty(each)) {
-//             if (typeof(foo[each]) == "object" && typeof(bar[each]) == "object") {
-//                 merged[each] = merge(foo[each], bar[each]);
-//             } else {
-//                 merged[each] = [foo[each], bar[each]];
-//             }
-//         } else if(bar.hasOwnProperty(each)) {
-//             merged[each] = bar[each];
-//         }
-//     }
-//     for (const each in foo) {
-//         if (!(each in bar) && foo.hasOwnProperty(each)) {
-//             merged[each] = foo[each];
-//         }
-//     }
-//     return merged;
-// }
-
-
-async function getIp() {
-    let totalData = {};
-
-    function addToJSON(field, add) {
-        // if (totalData.hasOwnProperty(field)) {
-        //     if (totalData[field] !== add) {
-        //         let newFieldName;
-        //         if (field.match(/\d+$/).length > 0) {
-        //             newFieldName = field + parseInt(field.match(/\d+$/)) + 1;
-        //         } else {
-        //             newFieldName = field + 2;
-        //         }
-        //         totalData[newFieldName] = add;
-        //     }
-        // } else {
-        //     totalData[field] = add;
-        // }
-        const split = field.split('.');
-
-        for (const item in split){
-            // if (item == split.length-1) continue;
-            let path = "totalData";
-            for (let i=0;i<item;i++){
-                path+="."+split[i];
-            }
-            // if (!totalData.hasOwnProperty(split[item])){
-            //     totalData[split[item]] = "";
-            // }
-            if (eval(`!${path}.hasOwnProperty(\"${split[item]}\")`)){
-                // console.log(`${path}[\"${split[item]}\"] = \"\"`);
-                // eval(`${path}[\"${split[item]}\"] = \"\"`)
-                eval(`${path}.${split[item]} = {}`)
+async function getInfo() {
+    let totalData = {
+        ip: {
+            ip4: [],
+            ip6: [],
+        },
+        location: {
+            continent: [],
+            country: [],
+            region: [],
+            city: [],
+            postal: [],
+            coordinates: [],
+        },
+        security: {
+            is_bogon: [],
+            is_cloud_provider: [],
+            is_tor: [],
+            is_tor_exit: [],
+            is_proxy: [],
+            is_anonymous: [],
+            is_abuser: [],
+            is_attacker: [],
+            is_threat: [],
+        },
+        time_zone: {
+            id: [],
+            abbreviation: [],
+            name: [],
+            time: [],
+        },
+        user_agent: {
+            header: [],
+            name: [],
+            type: [],
+            version: [],
+            device: {
+                brand: [],
+                name: [],
+                type: [],
+            },
+            engine: {
+                name: [],
+                type: [],
+                version: [],
+            },
+            os: {
+                name: [],
+                type: [],
+                version: [],
             }
         }
-
-        const index = field.lastIndexOf('.');
-        let path;
-        let property;
-        if (!index){
-            path = "totalData";
-            property = field;
-        } else {
-            path = "totalData."+field.substring(0,index);
-            property = field.substring(index+1);
-        }
-        if (eval(`!${path}.hasOwnProperty(\"${property}\")`)) {
-            if (eval(`${path}.${property} !== \"${add}\"`)) {
-                let newFieldName;
-                if (field.match(/\d+$/).length > 0) {
-                    newFieldName = property + (parseInt(property.match(/\d+$/)) + 1);
-                } else {
-                    newFieldName = property + 2;
-                }
-                eval(`${path}.${newFieldName} = \"${add}\"`);
-            }
-        } else {
-            eval(`${path}[\"${property}\"] = \"${add}\"`);
-        }
-
-    }
+    };
 
     try {
         await $.getJSON('https://api.ipify.org?format=jsonp&callback=?', function (data) {
-            addToJSON("ip.ip4", data.ip);
+            totalData.ip.ip4.push(data.ip);
         });
     } catch {
         //Suppress error
     }
     // try {
     //     await $.getJSON('https://ipinfo.io/json', function (data) {
-    //         addToJSON("ip.ip6", data.ip);
-    //         addToJSON("location.city", data.city);
-    //         addToJSON("location.region", data.region);
-    //         addToJSON("location.country", data.country.name);
-    //         addToJSON("location.id", data.timezone);
-    //         addToJSON("location.location", data.loc);
+    //         totalData.ip.ip6.push(data.ip);
+    //         totalData.location.city.push(data.city);
+    //         totalData.location.region.push(data.region);
+    //         totalData.location.country.push(data.country.name);
+    //         totalData.location.id.push(data.timezone);
+    //         totalData.location.coordinates.push(data.loc);
     //     });
     // } catch {
     //     //Suppress error
     // }
     // try {
-    //     await $.getJSON('https://api.ipregistry.co/?key=6j90v0tef9l6f81u', function(data) {
+    //     // await $.getJSON('https://api.ipregistry.co/?key=6j90v0tef9l6f81u', function(data) {
+    //     await $.getJSON('https://api.ipregistry.co/?key=tryout', function (data) {
     //         // console.log(data);
     //         // console.log(data.ip);
-    //         addToJSON("ip.ip6",data.ip);
-    //         addToJSON("location.continent",data.location.continent.name);
-    //         addToJSON("location.country",data.location.country.name);
-    //         addToJSON("location.region",data.location.region.name);
-    //         addToJSON("location.city",data.location.city);
-    //         addToJSON("location.postal",data.location.postal);
-    //         addToJSON("location.location",data.location.latitude+", "+data.location.longitude);
+    //         totalData.ip.ip6.push(data.ip);
+    //         totalData.location.continent.push(data.location.continent.name);
+    //         totalData.location.country.push(data.location.country.name);
+    //         totalData.location.region.push(data.location.region.name);
+    //         totalData.location.city.push(data.location.city);
+    //         totalData.location.postal.push(data.location.postal);
+    //         totalData.location.coordinates.push(data.location.latitude + ", " + data.location.longitude);
+    //         totalData.security.is_bogon.push(data.security.is_bogon);
+    //         totalData.security.is_cloud_provider.push(data.security.is_cloud_provider);
+    //         totalData.security.is_tor.push(data.security.is_tor);
+    //         totalData.security.is_tor_exit.push(data.security.is_tor_exit);
+    //         totalData.security.is_proxy.push(data.security.is_proxy);
+    //         totalData.security.is_anonymous.push(data.security.is_anonymous);
+    //         totalData.security.is_abuser.push(data.security.is_abuser);
+    //         totalData.security.is_attacker.push(data.security.is_attacker);
+    //         totalData.security.is_threat.push(data.security.is_threat);
+    //         totalData.time_zone.id.push(data.time_zone.id);
+    //         totalData.time_zone.abbreviation.push(data.time_zone.abbreviation);
+    //         totalData.time_zone.name.push(data.time_zone.name);
+    //         totalData.time_zone.time.push(data.time_zone.current_time);
+    //         totalData.user_agent.header.push(data.user_agent.header);
+    //         totalData.user_agent.name.push(data.user_agent.name);
+    //         totalData.user_agent.type.push(data.user_agent.type);
+    //         totalData.user_agent.version.push(data.user_agent.version);
+    //         totalData.user_agent.device.brand.push(data.user_agent.device.brand);
+    //         totalData.user_agent.device.name.push(data.user_agent.device.name);
+    //         totalData.user_agent.device.type.push(data.user_agent.device.type);
+    //         totalData.user_agent.engine.name.push(data.user_agent.engine.name);
+    //         totalData.user_agent.engine.type.push(data.user_agent.engine.type);
+    //         totalData.user_agent.engine.version.push(data.user_agent.engine.version);
+    //         totalData.user_agent.os.name.push(data.user_agent.os.name);
+    //         totalData.user_agent.os.type.push(data.user_agent.os.type);
+    //         totalData.user_agent.os.version.push(data.user_agent.os.version);
     //     });
-    // } catch{
+    // } catch {
     //     //Suppress error
     // }
-    // $.getJSON('https://jsonip.com/', function(data) {info = merge(info,data);});
-    // $.getJSON('http://ip.jsontest.com/', function(data) {info = merge(info,data);});
+    // try {
+    //     await $.getJSON('https://jsonip.com/', function (data) {
+    //         totalData.ip.ip6.push(data.ip);
+    //     });
+    // } catch {
+    //     //Suppress error
+    // }
+    // try {
+    //     await $.getJSON('http://ip.jsontest.com/', function (data) {
+    //         totalData.ip.ip6.push(data.ip);
+    //     });
+    // } catch {
+    //     //Suppress error
+    // }
+
     return JSON.stringify(totalData);
 }
 

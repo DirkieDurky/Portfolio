@@ -24,6 +24,7 @@ current_time
 		id
 		abbreviation
 		name
+		time
 	user_agent
 		header
 		name
