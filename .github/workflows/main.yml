@@ -14,7 +14,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3.1.0
         with:
-          path: /
+          name: artifact
+          path: artifact
         
   deploy:
     name: Deploy
@@ -24,7 +25,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@main
       - name: Download artifact
-        uses: actions/download-artifact@v3.1.0
+        uses: actions/download-artifact@v3.1.00
+        with:
+          name: artifact
+          path: artifact
       - name: Sync files to hosting
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
