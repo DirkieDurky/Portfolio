@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: debian-10
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@main
@@ -19,7 +19,7 @@ jobs:
   deploy:
     name: Deploy
     needs: build
-    runs-on: debian-10
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@main
