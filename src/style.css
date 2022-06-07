@@ -1,11 +1,11 @@
 @font-face {
     font-family: Coolvetica;
-    src: url("sources/coolvetica rg.ttf")
+    src: url("../assets/coolvetica-rg.ttf rg.ttf")
 }
 
 @font-face {
     font-family: Torus Regular;
-    src: url("sources/Torus Regular.otf")
+    src: url("../assets/torus-regular.otf")
 }
 
 body {
@@ -33,7 +33,7 @@ section {
     position: absolute;
     color: white;
     font-size: 100px;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
     text-align: center;
@@ -71,7 +71,8 @@ p.headline {
     left: 50%;
 }
 
-p,h1 {
+p,
+h1 {
     margin-top: 0;
     position: relative;
     transform: translate(-50%);
@@ -81,7 +82,7 @@ p,h1 {
     text-align: center;
 }
 
-#section-aboutMe span:not(#age){
+#section-aboutMe span:not(#age) {
     position: relative;
     display: inline-block;
     margin-top: 0;
@@ -161,11 +162,11 @@ p,h1 {
     line-height: 50px;
 }
 
-.flexElement header img{
+.flexElement header img {
     position: absolute;
     left: 10px;
     height: 40px;
-    transform: translate(0,-50%);
+    transform: translate(0, -50%);
     top: 50%;
 
     filter: drop-shadow(0px 5px 15px rgba(0, 0, 0, 0.35));
@@ -240,6 +241,7 @@ p,h1 {
     50% {
         bottom: 40px;
     }
+
     to {
         bottom: 10px;
     }
@@ -285,11 +287,17 @@ p,h1 {
 }
 
 .noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
