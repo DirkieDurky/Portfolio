@@ -11,6 +11,7 @@ jobs:
     - name: Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
-        server: sftp://92.63.169.233
+        server: 92.63.169.233
         username: github
         password: ${{ secrets.ftp_password }}
+        server-dir: var_www/portfolio/
