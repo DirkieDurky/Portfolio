@@ -1,0 +1,2 @@
+RewriteEngine on
+Redirect 301 /.apps/dirkdev.com/portfolio/index.html /.apps/dirkdev.com/portfolio/src/index.html
