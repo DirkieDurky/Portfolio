@@ -108,6 +108,7 @@ h1 {
     display: inline;
     transition: color 200ms;
     -webkit-background-clip: text;
+    background-clip: text;
     vertical-align: center;
     -webkit-text-fill-color: transparent;
 }
