@@ -1,0 +1,79 @@
+    function addToJSON(field, add) {
+
+        const split = field.split('.');
+
+        //Create "folder(s)" if required
+        for (const item in split) {
+            let path = "totalData";
+            let rawPath = "rawTotalData";
+            for (let i = 0; i < item; i++) {
+                path += "." + split[i];
+            }
+            if (eval(`!${path}.hasOwnProperty(\"${split[item]}\")`)) {
+                eval(`${path}.${split[item]} = {}`);
+                eval(`${rawPath}.${split[item]} = {}`);
+            }
+        }
+
+        const index = field.lastIndexOf('.');
+        let path;
+        let rawPath;
+        let property;
+        if (!index) {
+            path = "totalData";
+            rawPath = "rawTotalData";
+            property = field;
+        } else {
+            rawPath = "rawTotalData." + field.substring(0, index);
+            path = "totalData." + field.substring(0, index);
+            property = field.substring(index + 1);
+        }
+
+        //If a key with the same name already exists either make a new one or add 1 to the count of times a similar key has had that value
+        if (eval(`${path}.${property}.length > 0`)) {
+            const elementsInPath = eval(path);
+            let matchingElements = [];
+            for (const element in elementsInPath){
+                console.log(element+" "+property)
+                if (element.replace(/_\d+$/,"") === property.replace(/_\d+$/,"")){
+                    matchingElements.push(element);
+                }
+            }
+            console.log(property+" {")
+            for (const element in matchingElements){
+                console.log(matchingElements[element]);
+            }
+
+            let sameValueFound = false;
+            for (const element in matchingElements){
+                if (element !== add) sameValueFound = true;
+            }
+            if (matchingElements.length > 1 && !sameValueFound) {
+                // console.log("Same key with different value found. Creating a second key");
+                matchingElements = [];
+                const elementsInPath = eval(path);
+                for (const element in elementsInPath) {
+                    if (element.match(new RegExp(`${property}_\\d+$`))){
+                        matchingElements.push(element);
+                    }
+                }
+
+                let newFieldName;
+                if (matchingElements.length>0) {
+                    newFieldName = matchingElements[matchingElements.length - 1].replace(/\d+$/,"") + (parseInt(matchingElements[matchingElements.length - 1].match(/\d+$/)) + 1);
+                } else {
+                    newFieldName = property + "_2";
+                }
+                eval(`${path}.${newFieldName} = \"${add}\"`);
+            } else {
+                //Else add 1 to the count of times a similar key has had that value
+
+
+            }
+        } else {
+            // console.log("Key didn't previously exist. Creating new one");
+            eval(`${path}[\"${property}\"] = \"${add}\"`);
+        }
+
+        eval(`${rawPath}[\"${property}\"] = \"${add}\"`);
+    }
