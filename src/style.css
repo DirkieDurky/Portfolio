@@ -1,0 +1,304 @@
+@font-face {
+    font-family: Coolvetica;
+    src: url("../assets/fonts/coolvetica-rg.ttf")
+}
+
+@font-face {
+    font-family: Torus Regular;
+    src: url("../assets/fonts/torus-regular.otf")
+}
+
+body {
+    font-family: Torus Regular, serif;
+    color: white;
+    margin: 0;
+    background-color: #1d1d1d;
+}
+
+#section-title {
+    height: 100vh;
+    margin-bottom: 5%;
+}
+
+section {
+    position: relative;
+    display: block;
+    width: 100%;
+    background-color: #1d1d1d;
+    min-height: 60vh;
+}
+
+#title {
+    font-family: Coolvetica, serif;
+    position: absolute;
+    color: white;
+    font-size: 100px;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.titleLetter {
+    position: relative;
+    display: inline-block;
+    opacity: 0;
+}
+
+@media (hover:hover) {
+    .titleLetter:hover {
+        color: #e6649e;
+    }
+}
+
+.titleLetter.hoverEffect {
+    color: #e6649e;
+}
+
+#age:hover #ageWindow {
+    opacity: 100;
+}
+
+p.headline {
+    font-size: 30px;
+}
+
+#aboutMe {
+    position: absolute;
+    max-width: 400px;
+    transform: translate(-50%);
+    left: 50%;
+}
+
+p,
+h1 {
+    margin-top: 0;
+    position: relative;
+    transform: translate(-50%);
+    left: 50%;
+    max-width: 400px;
+    color: white;
+    text-align: center;
+}
+
+#section-aboutMe span:not(#age) {
+    position: relative;
+    display: inline-block;
+    margin-top: 0;
+    text-align: center;
+    color: white;
+}
+
+#ageWindow {
+    position: absolute;
+    border-radius: 15px;
+    transition: background-color 200ms, width 200ms, height 200ms;
+    transform: translate(-50%);
+    left: 50%;
+    width: 135px;
+    height: 50px;
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+#age {
+    position: relative;
+    display: inline;
+    transition: color 200ms;
+    -webkit-background-clip: text;
+    background-clip: text;
+    vertical-align: center;
+    -webkit-text-fill-color: transparent;
+}
+
+#ageUnderline {
+    position: absolute !important;
+    bottom: 2px;
+    left: 50%;
+    height: 2px;
+    width: 80%;
+    transform: translate(-50%);
+    border-radius: 5px;
+    background: linear-gradient(#e66465, #9198e5);
+}
+
+.ageDefault {
+    background: linear-gradient(#e66465, #9198e5);
+    font-size: 40px;
+}
+
+.ageHover {
+    background: linear-gradient(black, darkgrey);
+    font-size: 16px;
+}
+
+.flexbox {
+    position: relative;
+    transform: translate(-50%);
+    left: 50%;
+    display: inline-flex;
+    justify-content: center;
+    width: 80%;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.flexElement {
+    position: relative;
+    display: inline-block;
+    width: 390px;
+    min-height: 350px;
+    background-color: #323232;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 20px;
+}
+
+.flexElement header {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+}
+
+.flexElement header img {
+    position: absolute;
+    left: 10px;
+    height: 40px;
+    transform: translate(0, -50%);
+    top: 50%;
+
+    filter: drop-shadow(0px 5px 15px rgba(0, 0, 0, 0.35));
+}
+
+.flexElement h1 {
+    filter: drop-shadow(0px 5px 15px rgba(0, 0, 0, 0.35));
+}
+
+.flexElement .content {
+    padding: 10px;
+    width: calc(100% - 20px);
+}
+
+#section-WDIWTB {
+    margin-top: 400px;
+    margin-bottom: 100px;
+}
+
+#section-WIARN {
+    margin-bottom: 100px;
+}
+
+#section-contact img {
+    height: 100px;
+    width: 100px;
+    margin: 0 25px 25px;
+    cursor: pointer;
+    transition: transform 200ms;
+}
+
+#section-contact img:hover {
+    transform: scale(1.07);
+}
+
+#section-contact a {
+    position: relative;
+}
+
+.bubble {
+    position: absolute;
+    float: top;
+    width: fit-content;
+    height: fit-content;
+    background: #43b581;
+    border-radius: .4em;
+    z-index: 99;
+    color: white;
+    text-align: center;
+    vertical-align: center;
+    padding: 10px;
+    transform: translate(-50%);
+    left: 50%;
+    top: -45px;
+}
+
+.bubble:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-top-color: #43b581;
+    border-bottom: 0;
+    margin-left: -10px;
+    margin-bottom: -10px;
+}
+
+@keyframes bounce {
+    50% {
+        bottom: 40px;
+    }
+
+    to {
+        bottom: 10px;
+    }
+}
+
+.scroll {
+    writing-mode: vertical-lr;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    color: white;
+    animation: bounce 1000ms infinite;
+    opacity: 0;
+    transition: opacity 200ms;
+}
+
+.arrow {
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg) translate(-50%);
+    margin-top: 10px;
+}
+
+.scroll.right {
+    right: 10px;
+    left: auto;
+}
+
+.logo {
+    width: 50px;
+}
+
+@media only screen and (max-width: 370px) {
+    .logo {
+        width: 0;
+    }
+}
+
+.titleSpace {
+    margin-left: 30px;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
