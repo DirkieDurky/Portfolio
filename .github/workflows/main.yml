@@ -2,7 +2,7 @@ name: Deploy website on push
 on: 
   push:
     branches:
-    - live
+    - main
 jobs:
   web-deploy:
     name: Deploy
@@ -11,7 +11,7 @@ jobs:
     - name: Get latest code
       uses: actions/checkout@v2
       with: 
-        ref: live
+        ref: main
     - name: Sync files
       uses: wlixcc/SFTP-Deploy-Action@v1.2.4
       with:
