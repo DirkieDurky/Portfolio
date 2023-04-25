@@ -100,7 +100,7 @@ window.addEventListener('load', function () {
 let dob = new Date(1082928780000);
 
 let dobYear = dob.getFullYear();
-let dobMonth = dob.getMonth();
+let dobMonth = dob.getMonth()+1;
 let dobDate = dob.getDate();
 let dobHour = dob.getHours();
 let dobMins = dob.getMinutes();
@@ -110,11 +110,13 @@ function calcAge() {
 
     let now = new Date();
     let currentYear = now.getFullYear();
-    let currentMonth = now.getMonth();
+    let currentMonth = now.getMonth()+1;
     let currentDate = now.getDate();
     let currentHour = now.getHours();
     let currentMins = now.getMinutes();
     let currentSecs = now.getSeconds();
+
+    let daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
     let yearAge;
     let monthAge;
@@ -135,11 +137,11 @@ function calcAge() {
     }
 
     //Days
-    if (currentDate >= dobDate) {
+    if (currentDate > dobDate) {
         dateAge = currentDate - dobDate;
     } else {
         monthAge--;
-        dateAge = 31 + currentDate - dobDate;
+        dateAge = daysInMonth[currentMonth-1] + currentDate - dobDate;
 
         if (monthAge < 0) {
             monthAge = 11;
